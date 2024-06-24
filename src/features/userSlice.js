@@ -13,7 +13,7 @@ const initialState = {
 export const getUsers = createAsyncThunk("user/getUsers", async (formData) => {
   try {
     const accessToken = getAccessToken();
-    const url = `${devServer}/users`;
+    const url = `${liveServer}/users`;
     const response = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
