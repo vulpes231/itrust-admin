@@ -7,7 +7,7 @@ const initialState = {
   error: false,
   accessToken: null,
   success: false,
-  user: null,
+  admin: null,
 };
 
 export const signinAdmin = createAsyncThunk(
@@ -42,7 +42,7 @@ const loginAdminSlice = createSlice({
       state.loading = false;
       state.error = false;
       state.success = false;
-      state.user = null;
+      state.admin = null;
     },
   },
   extraReducers: (builder) => {
@@ -55,14 +55,14 @@ const loginAdminSlice = createSlice({
         state.loading = false;
         state.error = false;
         state.success = true;
-        state.user = action.payload.userObj;
+        state.admin = action.payload.adminObj;
       })
       .addCase(signinAdmin.rejected, (state, action) => {
         state.accessToken = null;
         state.loading = false;
         state.error = action.error.message;
         state.success = false;
-        state.user = null;
+        state.admin = null;
       });
   },
 });
