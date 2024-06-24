@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { Authnav, Content, Navbar } from "./components";
-import { Dashboard, Signup } from "./pages";
+import { Content, Navbar } from "./components";
+import { Dashboard, Signup, Transactions, Wallets, Users } from "./pages";
 import { getAccessToken } from "./utils/utilities";
 
 const App = () => {
   // const accessToken = getAccessToken();
 
-  // useEffect()
   return (
     <div>
       {/* <Navbar /> */}
@@ -15,6 +14,9 @@ const App = () => {
         <Route path="/" element={<Content />} />
         <Route path="/create-admin" element={<Signup />} />
         <Route path="/dash" element={<Dashboard />} />
+        <Route path="/transactions" element={<Transactions />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/wallets" element={<Wallets />} />
       </Routes>
     </div>
   );
