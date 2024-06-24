@@ -1,4 +1,4 @@
-const devServer = ``;
+const devServer = `http://localhost:3300`;
 const liveServer = ``;
 
 const links = [

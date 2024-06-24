@@ -27,14 +27,13 @@ const Datatable = ({ headers, data }) => {
                   key={colIndex}
                   className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
                 >
-                  {row[hdr.key]}
+                  {row[hdr.id]} {/* Access row data using hdr.id */}
                 </td>
               ))}
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button className="text-indigo-600 hover:text-indigo-900">
                   Edit
                 </button>
-                {/* Add more actions/buttons as needed */}
               </td>
             </tr>
           ))}

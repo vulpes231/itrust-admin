@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Datatable from "../components/Datatable";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken } from "../utils/utilities";
@@ -28,7 +28,7 @@ const Transactions = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const accessToken = getAccessToken();
-
+  const [myTrnxs, setMyTrnxs] = useState([]);
   const { getTransactionError, getTransactionLoading, trnxs } = useSelector(
     (state) => state.trnx
   );
@@ -45,7 +45,7 @@ const Transactions = () => {
     <div>
       <h3 className="font-bold text-lg p-4">Transactions</h3>
       <div>
-        <Datatable headers={header} />
+        <Datatable headers={header} data={myTrnxs} />
       </div>
     </div>
   );

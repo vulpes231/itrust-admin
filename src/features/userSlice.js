@@ -14,13 +14,13 @@ export const getUsers = createAsyncThunk("user/getUsers", async (formData) => {
   try {
     const accessToken = getAccessToken();
     const url = `${devServer}/users`;
-    const response = await axios.post(url, formData, {
+    const response = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response.data);
+    // console.log("Users", response.data);
     return response.data;
   } catch (error) {
     if (error.response) {

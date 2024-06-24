@@ -13,6 +13,9 @@ const Dashboard = () => {
   const [toggle, setToggle] = useState(false);
   const [activeLink, setActiveLink] = useState("dash");
 
+  const admin = JSON.parse(sessionStorage.getItem("admin"));
+  // console.log(admin.username);
+
   const navigate = useNavigate();
   const accessToken = getAccessToken();
 
@@ -42,7 +45,7 @@ const Dashboard = () => {
           <Authnav toggle={toggle} handleToggle={handleToggle} />
           {activeLink === "dash" ? (
             <div className="mt-4 flex flex-col gap-4">
-              <p>Welcome Admin</p>
+              <p className="capitalize">Welcome {admin.username}</p>
               <div>
                 <>
                   <Stats />

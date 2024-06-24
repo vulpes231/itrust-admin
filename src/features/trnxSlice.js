@@ -13,14 +13,14 @@ const initialState = {
 export const getTrnxs = createAsyncThunk("trnx/getTrnxs", async (formData) => {
   try {
     const accessToken = getAccessToken();
-    const url = `${devServer}/trnxs`;
-    const response = await axios.post(url, formData, {
+    const url = `${devServer}/trnx`;
+    const response = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response.data);
+    console.log("Trnx", response.data);
     return response.data;
   } catch (error) {
     if (error.response) {

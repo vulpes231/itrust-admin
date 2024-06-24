@@ -10,30 +10,27 @@ const initialState = {
   wallet: [],
 };
 
-export const getWallet = createAsyncThunk(
-  "wallet/getWallet",
-  async (formData) => {
-    try {
-      const accessToken = getAccessToken();
-      const url = `${devServer}/wallet`;
-      const response = await axios.post(url, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      if (error.response) {
-        const errorMsg = error.response.data.message;
-        throw new Error(errorMsg);
-      } else {
-        throw error;
-      }
+export const getWallet = createAsyncThunk("wallet/getWallet", async () => {
+  try {
+    const accessToken = getAccessToken();
+    const url = `${devServer}/wallet`;
+    const response = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log("Wallets", response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const errorMsg = error.response.data.message;
+      throw new Error(errorMsg);
+    } else {
+      throw error;
     }
   }
-);
+});
 
 const walletSlice = createSlice({
   name: "wallet",
