@@ -47,6 +47,7 @@ const Signup = () => {
           action=""
           className="bg-white p-6 flex flex-col gap-4"
         >
+          <h4 className="text-xl font-bold capitalize my-5">Create Admin</h4>
           <Formdiv>
             <label htmlFor="">username</label>
             <Forminput
@@ -77,8 +78,18 @@ const Signup = () => {
               handleChange={handleInputChange}
             />
           </div>
+          {error && (
+            <p className="text-red-700 font-sm bg-red-500 bg-opacity-10 p-2 ">
+              {error}
+            </p>
+          )}
+          {success && (
+            <p className="text-green-700 font-sm bg-green-500 bg-opacity-10 p-2 ">
+              {`Admin ${formData.username} created successfully.`}
+            </p>
+          )}
           <button className="bg-blue-500 text-white font-semibold text-sm capitalize py-3 px-2 rounded-md mt-4 hover:bg-blue-800">
-            create account
+            {loading ? "Creating admin..." : "Create admin"}
           </button>
         </form>
       </div>

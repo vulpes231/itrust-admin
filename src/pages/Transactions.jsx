@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import Datatable from "../components/Datatable";
 import { useNavigate } from "react-router-dom";
+import { getAccessToken } from "../utils/utilities";
+import { useDispatch, useSelector } from "react-redux";
+import { getTrnxs } from "../features/trnxSlice";
 
 const header = [
   {
@@ -23,13 +26,21 @@ const header = [
 
 const Transactions = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const accessToken = getAccessToken();
+
+  const { getTransactionError, getTransactionLoading, trnxs } = useSelector(
+    (state) => state.trnx
+  );
 
   useEffect(() => {
     if (!accessToken) {
       navigate("/");
+    } else {
+      dispatch(getTrnxs());
     }
   }, [accessToken]);
+
   return (
     <div>
       <h3 className="font-bold text-lg p-4">Transactions</h3>

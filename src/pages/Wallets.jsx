@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import Datatable from "../components/Datatable";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken } from "../utils/utilities";
+import { getWallet } from "../features/walletSlice";
+import { useDispatch } from "react-redux";
 
 const header = [
   {
@@ -20,12 +22,18 @@ const header = [
 
 const Wallets = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const accessToken = getAccessToken();
+  const { getWalletError, getWalletLoading, wallet } = useSelector(
+    (state) => state.wallet
+  );
 
   useEffect(() => {
     if (!accessToken) {
       navigate("/");
+    } else {
+      dispatch(getWallet());
     }
   }, [accessToken]);
 

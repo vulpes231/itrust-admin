@@ -13,13 +13,18 @@ const Navbar = () => {
   return (
     <header className="w-full isolate top-0 bg-slate-200">
       <nav className="p-6 flex justify-between items-center">
-        <h1>iTrust Admin</h1>
+        <h1 className="font-bold text-xl">iTrust Admin</h1>
         <div className="flex items-center gap-6">
           <ul className="hidden lg:flex items-center gap-4">
             {links.map((lnk) => {
               return (
                 <li key={lnk.id}>
-                  <Link to={lnk.path}>{lnk.title}</Link>
+                  <Link
+                    className="inline-flex px-4 py-3 bg-blue-500 text-white font-medium text-xs rounded-3xl"
+                    to={lnk.path}
+                  >
+                    {lnk.title}
+                  </Link>
                 </li>
               );
             })}

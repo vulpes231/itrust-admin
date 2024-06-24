@@ -14,7 +14,9 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { accessToken, admin } = useSelector((state) => state.signin);
+  const { accessToken, admin, loading, error } = useSelector(
+    (state) => state.signin
+  );
   const [formData, setFormData] = useState(initialState);
 
   const handleInputChange = (e) => {
@@ -28,6 +30,8 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(signinAdmin(formData));
+    console.log(formData);
+    // resetInput();
   };
 
   useEffect(() => {
@@ -52,6 +56,7 @@ const Login = () => {
           action=""
           className="bg-white rounded-sm shadow p-6 flex flex-col gap-4 w-full md:w-[380px]"
         >
+          <h4 className="text-xl font-bold capitalize my-5">Login Admin</h4>
           <Formdiv>
             <label htmlFor="">username</label>
             <Forminput
@@ -73,8 +78,18 @@ const Login = () => {
               handleChange={handleInputChange}
             />
           </Formdiv>
+          {error && (
+            <p className="text-red-700 font-sm bg-red-500 bg-opacity-10 p-2 ">
+              {error}
+            </p>
+          )}
+          {accessToken && (
+            <p className="text-green-700 font-sm bg-green-500 bg-opacity-10 p-2 ">
+              Login successful.
+            </p>
+          )}
           <button className="bg-blue-500 text-white font-semibold text-sm capitalize py-3 px-2 rounded-md mt-4 hover:bg-blue-800">
-            login
+            {loading ? "logging in..." : "login"}
           </button>
         </form>
       </div>

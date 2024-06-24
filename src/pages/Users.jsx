@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import Datatable from "../components/Datatable";
 import { getAccessToken } from "../utils/utilities";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../features/userSlice";
 const header = [
   {
     id: "name",
@@ -22,11 +24,16 @@ const header = [
 ];
 const Users = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const accessToken = getAccessToken();
+
+  const { getError, getLoading, users } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (!accessToken) {
       navigate("/");
+    } else {
+      dispatch(getUsers());
     }
   }, [accessToken]);
 

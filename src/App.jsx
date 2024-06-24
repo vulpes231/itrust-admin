@@ -5,11 +5,11 @@ import { Dashboard, Signup, Transactions, Wallets, Users } from "./pages";
 import { getAccessToken } from "./utils/utilities";
 
 const App = () => {
-  // const accessToken = getAccessToken();
+  const accessToken = getAccessToken();
 
   return (
     <div>
-      {/* <Navbar /> */}
+      {!accessToken && <Navbar />}
       <Routes>
         <Route path="/" element={<Content />} />
         <Route path="/create-admin" element={<Signup />} />

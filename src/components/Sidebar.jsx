@@ -10,7 +10,7 @@ const Sidebar = ({ toggle, setActiveLink, activeLink }) => {
       <div className="h-full p-6 overflow-y-auto">
         <h3 className="flex items-center gap-2 text-xl mb-4 uppercase font-bold">
           {" "}
-          <MdAdminPanelSettings /> admin panel
+          <MdAdminPanelSettings /> iTrust Admin
         </h3>
         <ul className="flex flex-col gap-2">
           {authLinks.map((lnk) => (

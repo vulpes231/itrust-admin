@@ -24,7 +24,13 @@ export const signinAdmin = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (error.response) {
-        const errorMsg = error.response.data.message;
+        const errorMsg =
+          error &&
+          error.response &&
+          error.response.message &&
+          error.response.message.data
+            ? error.response.message.data
+            : "An error occured.";
         throw new Error(errorMsg);
       } else {
         throw error;
