@@ -20,7 +20,7 @@ export const getTrnxs = createAsyncThunk("trnx/getTrnxs", async (formData) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log("Trnx", response.data);
+    // console.log("Trnx", response.data);
     return response.data;
   } catch (error) {
     if (error.response) {

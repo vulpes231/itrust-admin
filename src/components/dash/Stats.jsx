@@ -14,7 +14,7 @@ const Stats = () => {
   const { users } = useSelector((state) => state.user);
   const { trnxs } = useSelector((state) => state.trnx);
 
-  console.log(users?.users?.length);
+  // console.log(users?.users?.length);
 
   useEffect(() => {
     if (accessToken) {
