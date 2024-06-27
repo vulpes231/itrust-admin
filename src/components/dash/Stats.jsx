@@ -7,20 +7,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "../../utils/utilities";
 import { getTrnxs } from "../../features/trnxSlice";
 import { getUsers } from "../../features/userSlice";
+import { getWallet } from "../../features/walletSlice";
 
 const Stats = () => {
   const dispatch = useDispatch();
   const accessToken = getAccessToken();
   const { users } = useSelector((state) => state.user);
   const { trnxs } = useSelector((state) => state.trnx);
+  const { wallet } = useSelector((state) => state.wallet);
 
-  // console.log(users?.users?.length);
+  // console.log(wallet);
 
   useEffect(() => {
     if (accessToken) {
       dispatch(getTrnxs());
       dispatch(getUsers());
-      // dispatch(getTrnxs())
+      dispatch(getWallet());
     }
   }, [accessToken, dispatch]);
   return (
@@ -35,7 +37,11 @@ const Stats = () => {
         title={"transactions"}
         value={trnxs?.trnxs?.length ? trnxs.trnx.length : 0}
       />
-      <Box icon={<MdAdminPanelSettings />} title={"wallets"} value={0} />
+      <Box
+        icon={<MdAdminPanelSettings />}
+        title={"wallets"}
+        value={wallet?.wallets?.length ? wallet.wallets.length : 0}
+      />
     </div>
   );
 };

@@ -37,6 +37,8 @@ const Users = () => {
 
   const { getError, getLoading, users } = useSelector((state) => state.user);
 
+  const editUser = () => {};
+
   useEffect(() => {
     if (!accessToken) {
       navigate("/");
@@ -51,13 +53,19 @@ const Users = () => {
     }
   }, [users]);
 
-  console.log(myUsers);
+  // console.log(myUsers);
 
   return (
     <div>
       <h3 className="font-bold text-lg p-4">Users</h3>
       <div>
-        <Datatable headers={header} data={myUsers} />
+        <Datatable
+          headers={header}
+          data={myUsers}
+          title={"Edit"}
+          handleClick={editUser}
+          customClass={"text-white px-4 py-2 bg-blue-500 text-xs rounded-sm"}
+        />
       </div>
     </div>
   );
