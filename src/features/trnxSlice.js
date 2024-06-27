@@ -8,6 +8,9 @@ const initialState = {
   getTrnxError: false,
   getTrnxSuccess: false,
   trnxs: [],
+  approveTrnxLoading: false,
+  approveTrnxError: false,
+  approveTrnxSuccess: false,
 };
 
 export const getTrnxs = createAsyncThunk("trnx/getTrnxs", async (formData) => {
@@ -32,6 +35,31 @@ export const getTrnxs = createAsyncThunk("trnx/getTrnxs", async (formData) => {
   }
 });
 
+export const approveTrnxs = createAsyncThunk(
+  "trnx/approveTrnxs",
+  async (formData) => {
+    try {
+      const accessToken = getAccessToken();
+      const url = `${liveServer}/trnx/approve`;
+      const response = await axios.put(url, formData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // console.log("Trnx", response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMsg = error.response.data.message;
+        throw new Error(errorMsg);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
 const trnxSlice = createSlice({
   name: "trnx",
   initialState,
@@ -40,6 +68,9 @@ const trnxSlice = createSlice({
       state.getTrnxLoading = false;
       state.getTrnxError = false;
       state.getTrnxSuccess = false;
+      state.approveTrnxLoading = false;
+      state.approveTrnxError = false;
+      state.approveTrnxSuccess = false;
       state.trnxs = [];
     },
   },
@@ -59,6 +90,21 @@ const trnxSlice = createSlice({
         state.getTrnxError = action.error.message;
         state.getTrnxSuccess = false;
         state.trnxs = [];
+      });
+
+    builder
+      .addCase(approveTrnxs.pending, (state) => {
+        state.approveTrnxLoading = true;
+      })
+      .addCase(approveTrnxs.fulfilled, (state) => {
+        state.approveTrnxLoading = false;
+        state.approveTrnxError = false;
+        state.approveTrnxSuccess = true;
+      })
+      .addCase(approveTrnxs.rejected, (state, action) => {
+        state.approveTrnxLoading = false;
+        state.approveTrnxError = action.error.message;
+        state.approveTrnxSuccess = false;
       });
   },
 });

@@ -57,7 +57,7 @@ const Datatable = ({
               {headers.map((hdr, colIndex) => (
                 <td
                   key={colIndex}
-                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                  className=" capitalize px-6 py-4 whitespace-nowrap text-sm text-gray-900"
                 >
                   {renderCellContent(row, hdr)}
                 </td>

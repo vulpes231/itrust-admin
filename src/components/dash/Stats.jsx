@@ -35,7 +35,7 @@ const Stats = () => {
       <Box
         icon={<FaBoxArchive />}
         title={"transactions"}
-        value={trnxs?.trnxs?.length ? trnxs.trnx.length : 0}
+        value={trnxs?.trnx?.length ? trnxs.trnx.length : 0}
       />
       <Box
         icon={<MdAdminPanelSettings />}
