@@ -1,5 +1,5 @@
 const devServer = `http://localhost:3300`;
-const liveServer = `https://quadx.onrender.com`;
+const liveServer = `https://server.quadx.io`;
 
 const links = [
   { id: "login", title: "Login", path: "/" },
