@@ -45,7 +45,7 @@ const Approvemodal = ({ closeModal, trnxRow }) => {
     <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-25 text-sm font-medium">
       <div className="bg-white p-6 shadow rounded-sm">
         <div
-          onClick={closeModal}
+          onClick={() => closeModal()}
           className="cursor-pointer flex justify-end items-center hover:text-blue-500"
         >
           <small>close</small>

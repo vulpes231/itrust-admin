@@ -10,6 +10,7 @@ const authLinks = [
   { id: "user", title: "Users", path: "/users" },
   { id: "trnx", title: "Transactions", path: "/transactions" },
   { id: "wallet", title: "Wallets", path: "/wallets" },
+  { id: "bot", title: "Bots", path: "/bots" },
 ];
 
 export { devServer, liveServer, links, authLinks };

@@ -51,7 +51,8 @@ const Transactions = () => {
   };
 
   const closeModal = () => {
-    setShowModal(false);
+    console.log("Clicked close");
+    setApproveModal(false);
   };
 
   useEffect(() => {
