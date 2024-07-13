@@ -9,7 +9,7 @@ const initialState = {
   url: "",
 };
 
-const createBot = ({ closeModal }) => {
+const Newbot = ({ closeModal }) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState(initialState);
 
@@ -101,4 +101,4 @@ const createBot = ({ closeModal }) => {
   );
 };
 
-export default createBot;
+export default Newbot;
