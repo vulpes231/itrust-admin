@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import Box from "./Box";
 import {} from "react-icons/fa";
-import { FaUserGroup, FaBoxArchive, FaBots } from "react-icons/fa6";
-import { MdAdminPanelSettings } from "react-icons/md";
+import { FaUserGroup, FaBots } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "../../utils/utilities";
 import { getTrnxs } from "../../features/trnxSlice";
 import { getUsers } from "../../features/userSlice";
 import { getWallet } from "../../features/walletSlice";
 import { getAllBots } from "../../features/botSlice";
+import { FaWallet } from "react-icons/fa6";
+import { SiMarketo } from "react-icons/si";
 
 const Stats = () => {
   const dispatch = useDispatch();
@@ -34,12 +35,12 @@ const Stats = () => {
         value={users?.users?.length ? users.users.length : 0}
       />
       <Box
-        icon={<FaBoxArchive />}
+        icon={<SiMarketo />}
         title={"transactions"}
         value={trnxs?.trnx?.length ? trnxs.trnx.length : 0}
       />
       <Box
-        icon={<MdAdminPanelSettings />}
+        icon={<FaWallet />}
         title={"wallets"}
         value={wallet?.wallets?.length ? wallet.wallets.length : 0}
       />

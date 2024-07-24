@@ -37,7 +37,11 @@ const Users = () => {
 
   const { getError, getLoading, users } = useSelector((state) => state.user);
 
-  const editUser = () => {};
+  const editUser = (row, option) => {
+    // e.preventDefault()
+    console.log(row);
+    console.log(option);
+  };
 
   useEffect(() => {
     if (!accessToken) {
@@ -53,8 +57,6 @@ const Users = () => {
     }
   }, [users]);
 
-  // console.log(myUsers);
-
   return (
     <div>
       <h3 className="font-bold text-lg p-4">Users</h3>
@@ -64,7 +66,9 @@ const Users = () => {
           data={myUsers}
           title={"Edit"}
           handleClick={editUser}
-          customClass={"text-white px-4 py-2 bg-blue-500 text-xs rounded-sm"}
+          customClass={
+            "text-white px-4 py-2 bg-blue-500 text-xs rounded-sm capitalize"
+          }
         />
       </div>
     </div>

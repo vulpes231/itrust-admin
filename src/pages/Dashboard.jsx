@@ -37,16 +37,14 @@ const Dashboard = () => {
         setActiveLink={setActiveLink}
         activeLink={activeLink}
       />
-      <div
-        className={`flex-1 ${
-          toggle ? "w-[calc(100% - 250px)]" : "w-full"
-        } bg-slate-50`}
-      >
+      <div className={`flex-1 ${toggle ? "wid" : "w-full"} bg-slate-200`}>
         <div className="p-6">
           <Authnav toggle={toggle} handleToggle={handleToggle} />
           {activeLink === "dash" ? (
             <div className="mt-4 flex flex-col gap-4">
-              <p className="capitalize">Welcome {admin.username}</p>
+              <p className="capitalize font-semibold text-lg">
+                Welcome {admin.username}
+              </p>
               <div>
                 <>
                   <Stats />

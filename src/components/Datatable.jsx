@@ -1,15 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const Datatable = ({
   headers,
   data,
-  handleClick, // Assume handleClick is defined in the parent component
-  title,
+  handleClick,
   customClass,
-  name,
   onChange,
   value,
 }) => {
+  // Initialize options state for each row
+  const initialOptionsState = data.map(() => ({ action: "" }));
+  const [options, setOptions] = useState(initialOptionsState);
+
+  // Handle option selection for a specific row
+  const handleOption = (rowIndex, e) => {
+    const { name, value } = e.target;
+    setOptions((prevOptions) => {
+      const updatedOptions = [...prevOptions];
+      updatedOptions[rowIndex] = {
+        ...updatedOptions[rowIndex],
+        [name]: value,
+      };
+      return updatedOptions;
+    });
+  };
+
+  // Reset options state when data changes
+  useEffect(() => {
+    setOptions(initialOptionsState);
+  }, [data]);
+
   const renderCellContent = (row, hdr) => {
     if (typeof row[hdr.id] === "object") {
       const myAssets = row[hdr.id].map((cn) => {
@@ -21,7 +41,7 @@ const Datatable = ({
       });
       return (
         <select
-          value={value}
+          value={value} // Assuming this is the correct value to use here
           onChange={onChange}
           className="p-2 rounded-md bg-transparent border text-xs"
         >
@@ -36,12 +56,12 @@ const Datatable = ({
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border-gray-200 shadow-md rounded">
-        <thead className="bg-gray-100">
+        <thead className="bg-gray-300">
           <tr>
             {headers?.map((hdr, index) => (
               <th
                 key={index}
-                className="px-6 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
               >
                 {hdr.name}
               </th>
@@ -53,22 +73,39 @@ const Datatable = ({
         </thead>
         <tbody className="divide-y divide-gray-200">
           {data?.map((row, rowIndex) => (
-            <tr key={rowIndex}>
+            <tr
+              className={`font-thin text-xs ${
+                rowIndex % 2 === 0 ? "bg-gray-100" : "bg-transparent"
+              }`}
+              key={rowIndex}
+            >
               {headers.map((hdr, colIndex) => (
                 <td
                   key={colIndex}
-                  className=" capitalize px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
                 >
                   {renderCellContent(row, hdr)}
                 </td>
               ))}
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button
-                  onClick={() => handleClick(row)}
-                  className={customClass}
+                <select
+                  value={options[rowIndex]?.action}
+                  name="action"
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    handleOption(rowIndex, e);
+                    handleClick(row, e.target.value);
+                  }}
+                  className={`text-center ${customClass}`}
                 >
-                  {title}
-                </button>
+                  <option value="">Actions</option>
+                  <option value="view">Edit</option>
+                  <option value="delete">Delete</option>
+                  {row.trnxType && <option value="approve">Approve</option>}
+                  {row.occupation && <option value="suspend">Suspend</option>}
+                  {row.trnxType && <option value="reject">Reject</option>}
+                  {row.user && <option value={"address"}>Set address</option>}
+                </select>
               </td>
             </tr>
           ))}

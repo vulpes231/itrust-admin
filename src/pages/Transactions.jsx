@@ -44,10 +44,11 @@ const Transactions = () => {
     (state) => state.trnx
   );
 
-  const handleClick = (row) => {
-    console.log("Clicked row data:", row);
+  const handleClick = (row, option) => {
     setTrnxRow(row);
     setApproveModal(true);
+    console.log(row);
+    console.log(option);
   };
 
   const closeModal = () => {
