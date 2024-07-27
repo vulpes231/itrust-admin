@@ -8,9 +8,8 @@ const Datatable = ({
   onChange,
   value,
 }) => {
-  // Initialize options state for each row
-  const initialOptionsState = data.map(() => ({ action: "" }));
-  const [options, setOptions] = useState(initialOptionsState);
+  // Initialize options state with empty array
+  const [options, setOptions] = useState([]);
 
   // Handle option selection for a specific row
   const handleOption = (rowIndex, e) => {
@@ -25,23 +24,23 @@ const Datatable = ({
     });
   };
 
-  // Reset options state when data changes
+  // Update options when data changes
   useEffect(() => {
-    setOptions(initialOptionsState);
+    if (data) {
+      setOptions(new Array(data.length).fill({ action: "" }));
+    }
   }, [data]);
 
   const renderCellContent = (row, hdr) => {
     if (typeof row[hdr.id] === "object") {
-      const myAssets = row[hdr.id].map((cn) => {
-        return (
-          <option key={cn._id} value={cn.shortName}>
-            {cn.shortName.toUpperCase()}: {cn.address || "None"}
-          </option>
-        );
-      });
+      const myAssets = row[hdr.id].map((cn) => (
+        <option key={cn._id} value={cn.shortName}>
+          {cn.shortName.toUpperCase()}: {cn.address || "None"}
+        </option>
+      ));
       return (
         <select
-          value={value} // Assuming this is the correct value to use here
+          value={value}
           onChange={onChange}
           className="p-2 rounded-md bg-transparent border text-xs"
         >
@@ -89,7 +88,7 @@ const Datatable = ({
               ))}
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <select
-                  value={options[rowIndex]?.action}
+                  value={options[rowIndex]?.action || ""}
                   name="action"
                   onChange={(e) => {
                     e.stopPropagation();
@@ -104,7 +103,7 @@ const Datatable = ({
                   {row.trnxType && <option value="approve">Approve</option>}
                   {row.occupation && <option value="suspend">Suspend</option>}
                   {row.trnxType && <option value="reject">Reject</option>}
-                  {row.user && <option value={"address"}>Set address</option>}
+                  {row.user && <option value="address">Set address</option>}
                 </select>
               </td>
             </tr>

@@ -5,6 +5,7 @@ import { getAccessToken } from "../utils/utilities";
 import { useDispatch, useSelector } from "react-redux";
 import { getTrnxs } from "../features/trnxSlice";
 import Approvemodal from "../components/trans/Approvemodal";
+import Pagescontainer from "../components/Pagescontainer";
 
 const header = [
   {
@@ -71,21 +72,20 @@ const Transactions = () => {
   }, [trnxs]);
 
   return (
-    <div>
+    <Pagescontainer>
       <h3 className="font-bold text-lg p-4">Transactions</h3>
-      <div>
-        <Datatable
-          headers={header}
-          data={myTrnxs}
-          title={"Approve"}
-          handleClick={handleClick}
-          customClass={"text-white px-4 py-2 bg-green-500 text-xs rounded-sm"}
-        />
-      </div>
+      <Datatable
+        headers={header}
+        data={myTrnxs}
+        title={"Approve"}
+        handleClick={handleClick}
+        customClass={"text-white px-4 py-2 bg-green-500 text-xs rounded-sm"}
+      />
+
       {approveModal && (
         <Approvemodal trnxRow={trnxRow} closeModal={closeModal} />
       )}
-    </div>
+    </Pagescontainer>
   );
 };
 

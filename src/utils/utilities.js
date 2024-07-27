@@ -1,4 +1,9 @@
 export const getAccessToken = () => {
   const token = sessionStorage.getItem("accessToken");
-  return token ? JSON.parse(token) : null;
+  try {
+    return token ? JSON.parse(token) : null;
+  } catch (e) {
+    console.error("Failed to parse access token", e);
+    return null;
+  }
 };

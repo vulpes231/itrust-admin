@@ -5,6 +5,7 @@ import { getAccessToken } from "../utils/utilities";
 import { getWallet } from "../features/walletSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Walletmodal from "../components/wallet/Walletmodal";
+import Pagescontainer from "../components/Pagescontainer";
 
 const header = [
   {
@@ -60,19 +61,17 @@ const Wallets = () => {
   }, [wallet]);
 
   return (
-    <div>
+    <Pagescontainer>
       <h3 className="font-bold text-lg p-4">Wallets</h3>
-      <div>
-        <Datatable
-          headers={header}
-          data={myWallets}
-          title={"Set Address"}
-          handleClick={handleClick}
-          customClass={"text-white px-4 py-2 bg-yellow-500 text-xs rounded-sm "}
-        />
-        {showModal && <Walletmodal closeModal={closeModal} rowData={rowData} />}
-      </div>
-    </div>
+      <Datatable
+        headers={header}
+        data={myWallets}
+        title={"Set Address"}
+        handleClick={handleClick}
+        customClass={"text-white px-4 py-2 bg-yellow-500 text-xs rounded-sm "}
+      />
+      {showModal && <Walletmodal closeModal={closeModal} rowData={rowData} />}
+    </Pagescontainer>
   );
 };
 

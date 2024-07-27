@@ -1,10 +1,10 @@
 import React from "react";
 import { Login } from "../pages";
 
-const Content = () => {
+const Content = ({ setToken }) => {
   return (
     <div>
-      <Login />
+      <Login setToken={setToken} />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import Forminput from "../components/Forminput";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signupAdmin } from "../features/signupSlice";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 const initialState = {
   username: "",
@@ -45,9 +46,11 @@ const Signup = () => {
         <form
           onSubmit={handleSignup}
           action=""
-          className="bg-white p-6 flex flex-col gap-4"
+          className="bg-white rounded-xl shadow py-6 px-7 flex flex-col gap-4 w-full md:w-[380px]"
         >
-          <h4 className="text-xl font-bold capitalize my-5">Create Admin</h4>
+          <h4 className="text-xl font-bold capitalize my-5 text-purple-500 flex items-center gap-2">
+            <MdOutlineAdminPanelSettings /> Create Admin
+          </h4>
           <Formdiv>
             <label htmlFor="">username</label>
             <Forminput
@@ -69,7 +72,7 @@ const Signup = () => {
             />
           </Formdiv>
           <div>
-            <label htmlFor="">password</label>
+            <label htmlFor="">Password</label>
             <Forminput
               type={"text"}
               placeHolder={"Enter password"}
@@ -79,7 +82,7 @@ const Signup = () => {
             />
           </div>
           {error && (
-            <p className="text-red-700 font-sm bg-red-500 bg-opacity-10 p-2 ">
+            <p className="text-red-700 text-sm font-medium bg-red-100 p-2 rounded-3xl">
               {error}
             </p>
           )}
@@ -88,7 +91,7 @@ const Signup = () => {
               {`Admin ${formData.username} created successfully.`}
             </p>
           )}
-          <button className="bg-blue-500 text-white font-semibold text-sm capitalize py-3 px-2 rounded-md mt-4 hover:bg-blue-800">
+          <button className="bg-purple-500 text-white font-semibold text-sm capitalize py-3 px-2 rounded-3xl mt-4 hover:bg-purple-800">
             {loading ? "Creating admin..." : "Create admin"}
           </button>
         </form>

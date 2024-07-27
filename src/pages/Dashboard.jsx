@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import Stats from "../components/dash/Stats";
-import { Authnav } from "../components";
 import Sidebar from "../components/Sidebar";
 import Users from "./Users";
 import Transactions from "./Transactions";
@@ -10,8 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { getAccessToken } from "../utils/utilities";
 import Bots from "./Bots";
 
-const Dashboard = () => {
-  const [toggle, setToggle] = useState(false);
+const Dashboard = ({ toggle, handleToggle }) => {
   const [activeLink, setActiveLink] = useState("dash");
 
   const admin = JSON.parse(sessionStorage.getItem("admin"));
@@ -20,12 +18,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const accessToken = getAccessToken();
 
-  const handleToggle = () => {
-    setToggle((prev) => !prev);
-  };
-
   useEffect(() => {
-    if (!accessToken) {
+    if (!accessToken || !admin) {
       navigate("/");
     }
   }, [accessToken]);
@@ -37,9 +31,8 @@ const Dashboard = () => {
         setActiveLink={setActiveLink}
         activeLink={activeLink}
       />
-      <div className={`flex-1 ${toggle ? "wid" : "w-full"} bg-slate-200`}>
+      <div className={`flex-1 ${toggle ? "wid" : "w-full"} bg-slate-50`}>
         <div className="p-6">
-          <Authnav toggle={toggle} handleToggle={handleToggle} />
           {activeLink === "dash" ? (
             <div className="mt-4 flex flex-col gap-4">
               <p className="capitalize font-semibold text-lg">

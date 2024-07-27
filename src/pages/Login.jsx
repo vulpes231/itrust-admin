@@ -4,13 +4,14 @@ import Forminput from "../components/Forminput";
 import { useDispatch, useSelector } from "react-redux";
 import { signinAdmin } from "../features/loginSlice";
 import { useNavigate } from "react-router-dom";
+import { MdLockOpen } from "react-icons/md";
 
 const initialState = {
   username: "",
   password: "",
 };
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -39,6 +40,7 @@ const Login = () => {
       try {
         sessionStorage.setItem("accessToken", JSON.stringify(accessToken));
         sessionStorage.setItem("admin", JSON.stringify(admin));
+        setToken(accessToken);
       } catch (error) {
         console.error("Failed to save access token:", error);
       }
@@ -54,9 +56,11 @@ const Login = () => {
         <form
           onSubmit={handleLogin}
           action=""
-          className="bg-white rounded-sm shadow p-6 flex flex-col gap-4 w-full md:w-[380px]"
+          className="bg-white rounded-xl shadow py-6 px-7 flex flex-col gap-4 w-full md:w-[380px]"
         >
-          <h4 className="text-xl font-bold capitalize my-5">Login Admin</h4>
+          <h4 className="text-xl font-bold capitalize my-3 flex items-center gap-2 text-purple-500">
+            <MdLockOpen /> Login Admin
+          </h4>
           <Formdiv>
             <label htmlFor="">username</label>
             <Forminput
@@ -79,7 +83,7 @@ const Login = () => {
             />
           </Formdiv>
           {error && (
-            <p className="text-red-700 font-sm bg-red-500 bg-opacity-10 p-2 ">
+            <p className="text-red-700 text-sm font-medium bg-red-100 px-4 py-2 rounded-3xl">
               {error}
             </p>
           )}
@@ -88,7 +92,7 @@ const Login = () => {
               Login successful.
             </p>
           )}
-          <button className="bg-blue-500 text-white font-semibold text-sm capitalize py-3 px-2 rounded-md mt-4 hover:bg-blue-800">
+          <button className="bg-purple-500 text-white font-semibold text-sm capitalize py-3 px-2 rounded-3xl mt-4 hover:bg-purple-600">
             {loading ? "logging in..." : "login"}
           </button>
         </form>

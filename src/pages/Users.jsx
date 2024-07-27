@@ -4,7 +4,7 @@ import { getAccessToken } from "../utils/utilities";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../features/userSlice";
-
+import Pagescontainer from "../components/Pagescontainer";
 const header = [
   {
     id: "username",
@@ -58,20 +58,18 @@ const Users = () => {
   }, [users]);
 
   return (
-    <div>
+    <Pagescontainer>
       <h3 className="font-bold text-lg p-4">Users</h3>
-      <div>
-        <Datatable
-          headers={header}
-          data={myUsers}
-          title={"Edit"}
-          handleClick={editUser}
-          customClass={
-            "text-white px-4 py-2 bg-blue-500 text-xs rounded-sm capitalize"
-          }
-        />
-      </div>
-    </div>
+      <Datatable
+        headers={header}
+        data={myUsers}
+        title={"Edit"}
+        handleClick={editUser}
+        customClass={
+          "text-white px-4 py-2 bg-blue-500 text-xs rounded-sm capitalize"
+        }
+      />
+    </Pagescontainer>
   );
 };
 

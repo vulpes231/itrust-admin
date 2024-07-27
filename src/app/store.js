@@ -5,6 +5,7 @@ import userReducer from "../features/userSlice";
 import walletReducer from "../features/walletSlice";
 import trnxReducer from "../features/trnxSlice";
 import botReducer from "../features/botSlice";
+import logoutSlice from "../features/logoutSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     wallet: walletReducer,
     trnx: trnxReducer,
     bot: botReducer,
+    logout: logoutSlice,
   },
 });
 

@@ -5,6 +5,7 @@ import { getAccessToken } from "../utils/utilities";
 import { getAllBots } from "../features/botSlice";
 import Datatable from "../components/Datatable";
 import { Newbot } from "../components";
+import Pagescontainer from "../components/Pagescontainer";
 
 const header = [
   {
@@ -75,14 +76,14 @@ const Bots = () => {
 
   if (getBotsLoading) {
     return (
-      <div>
+      <div className="lg:w-[1200px] mx-auto">
         <h3 className="font-bold text-lg p-4">Bots</h3>
         <p>Fetching bots...</p>
       </div>
     );
   }
   return (
-    <div>
+    <Pagescontainer>
       <div className="flex justify-between items-center">
         <h3 className="font-bold text-lg p-4">Bots</h3>
         <button
@@ -99,7 +100,7 @@ const Bots = () => {
         customClass={"text-white px-4 py-2 bg-green-500 text-xs rounded-sm"}
       />
       {createBotModal && <Newbot closeModal={closeCreateModal} />}
-    </div>
+    </Pagescontainer>
   );
 };
 
