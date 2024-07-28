@@ -3,7 +3,7 @@ import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { approveTrnxs } from "../../features/trnxSlice";
 
-const Approvemodal = ({ closeModal, trnxRow }) => {
+const Rejectmodal = ({ closeModal, trnxRow }) => {
   const dispatch = useDispatch();
   const initialState = {
     transactionId: trnxRow?._id,
@@ -11,8 +11,8 @@ const Approvemodal = ({ closeModal, trnxRow }) => {
   };
   const [form, setForm] = useState(initialState);
 
-  const { approveTrnxLoading, approveTrnxError, approveTrnxSuccess } =
-    useSelector((state) => state.trnx);
+  //   const { approveTrnxLoading, approveTrnxError, approveTrnxSuccess } =
+  //     useSelector((state) => state.trnx);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,14 +32,14 @@ const Approvemodal = ({ closeModal, trnxRow }) => {
     setForm(initialState);
   };
 
-  useEffect(() => {
-    if (approveTrnxSuccess) {
-      resetInput();
-      setTimeout(() => {
-        window.location.reload();
-      }, [3000]);
-    }
-  }, [approveTrnxSuccess]);
+  //   useEffect(() => {
+  //     if (approveTrnxSuccess) {
+  //       resetInput();
+  //       setTimeout(() => {
+  //         window.location.reload();
+  //       }, [3000]);
+  //     }
+  //   }, [approveTrnxSuccess]);
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-25 text-sm font-medium">
@@ -85,26 +85,26 @@ const Approvemodal = ({ closeModal, trnxRow }) => {
               className="border p-2 w-full bg-transparent focus:outline-purple-500"
             >
               <option value="pending">pending</option>
-              <option value="completed">completed</option>
+              <option value="failed">failed</option>
             </select>
           </div>
 
-          {approveTrnxSuccess && (
+          {/* {approveTrnxSuccess && (
             <p className="text-green-500 font-medium text-xs">
               Transaction approved successfully.
             </p>
-          )}
-          {approveTrnxError && (
+          )} */}
+          {/* {approveTrnxError && (
             <p className="text-red-500 font-medium text-xs">
               {approveTrnxError}
             </p>
-          )}
+          )} */}
 
           <button
             onClick={handleApproval}
             className="p-2 bg-purple-500 text-white capitalize"
           >
-            {approveTrnxLoading ? "Approving..." : "Approve"}
+            Reject
           </button>
         </form>
       </div>
@@ -112,4 +112,4 @@ const Approvemodal = ({ closeModal, trnxRow }) => {
   );
 };
 
-export default Approvemodal;
+export default Rejectmodal;

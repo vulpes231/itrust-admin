@@ -11,6 +11,9 @@ const initialState = {
   detailsLoading: false,
   detailsError: false,
   userDetails: null,
+  deleteLoading: false,
+  deleteError: false,
+  deleted: false,
 };
 
 const accessToken = getAccessToken();
@@ -60,6 +63,32 @@ export const getUserDetails = createAsyncThunk(
   }
 );
 
+export const removeUser = createAsyncThunk("user/removeUser", async (id) => {
+  // console.log(userId);
+  try {
+    const url = `${devServer}/users/delete/${id}`;
+    const response = await axios.put(
+      url,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    console.log("Users", response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const errorMsg = error.response.data.message;
+      throw new Error(errorMsg);
+    } else {
+      throw error;
+    }
+  }
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -73,7 +102,12 @@ const userSlice = createSlice({
     resetUserDetails(state) {
       state.detailsLoading = false;
       state.detailsError = false;
-      state.userDetail = null;
+      state.userDetails = null;
+    },
+    resetDeleteUser(state) {
+      state.deleteError = false;
+      state.deleteLoading = false;
+      state.deleted = false;
     },
   },
   extraReducers: (builder) => {
@@ -107,8 +141,23 @@ const userSlice = createSlice({
         state.detailsError = action.error.message;
         state.userDetails = null;
       });
+
+    builder
+      .addCase(removeUser.pending, (state) => {
+        state.deleteLoading = true;
+      })
+      .addCase(removeUser.fulfilled, (state) => {
+        state.deleteLoading = false;
+        state.deleteError = false;
+        state.deleted = true;
+      })
+      .addCase(removeUser.rejected, (state, action) => {
+        state.deleteLoading = false;
+        state.deleteError = action.error.message;
+        state.deleted = false;
+      });
   },
 });
 
-export const { reset, resetUserDetails } = userSlice.actions;
+export const { reset, resetUserDetails, resetDeleteUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -11,6 +11,12 @@ const initialState = {
   approveTrnxLoading: false,
   approveTrnxError: false,
   approveTrnxSuccess: false,
+  deleteTrnxLoading: false,
+  deleteTrnxError: false,
+  deleteTrnxSuccess: false,
+  editTrnxLoading: false,
+  editTrnxError: false,
+  editTrnxSuccess: false,
 };
 
 export const getTrnxs = createAsyncThunk("trnx/getTrnxs", async (formData) => {
@@ -60,6 +66,53 @@ export const approveTrnxs = createAsyncThunk(
   }
 );
 
+export const deleteTrnx = createAsyncThunk(
+  "trnx/deleteTrnx",
+  async (formData) => {
+    try {
+      const accessToken = getAccessToken();
+      const url = `${devServer}/trnx/`;
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // console.log("Trnx", response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMsg = error.response.data.message;
+        throw new Error(errorMsg);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
+export const editTrnx = createAsyncThunk("trnx/editTrnx", async (formData) => {
+  try {
+    const accessToken = getAccessToken();
+    const url = `${devServer}/trnx/`;
+    const response = await axios.put(url, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    // console.log("Trnx", response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const errorMsg = error.response.data.message;
+      throw new Error(errorMsg);
+    } else {
+      throw error;
+    }
+  }
+});
+
 const trnxSlice = createSlice({
   name: "trnx",
   initialState,
@@ -72,6 +125,16 @@ const trnxSlice = createSlice({
       state.approveTrnxError = false;
       state.approveTrnxSuccess = false;
       state.trnxs = [];
+    },
+    resetDeleteTrnx() {
+      state.deleteTrnxLoading = false;
+      state.deleteTrnxError = false;
+      state.deleteTrnxSuccess = false;
+    },
+    resetEditTrnx() {
+      state.editTrnxLoading = false;
+      state.editTrnxError = false;
+      state.editTrnxSuccess = false;
     },
   },
   extraReducers: (builder) => {
@@ -106,8 +169,38 @@ const trnxSlice = createSlice({
         state.approveTrnxError = action.error.message;
         state.approveTrnxSuccess = false;
       });
+
+    builder
+      .addCase(deleteTrnx.pending, (state) => {
+        state.deleteTrnxLoading = true;
+      })
+      .addCase(deleteTrnx.fulfilled, (state) => {
+        state.deleteTrnxLoading = false;
+        state.deleteTrnxError = false;
+        state.deleteTrnxSuccess = true;
+      })
+      .addCase(deleteTrnx.rejected, (state, action) => {
+        state.deleteTrnxLoading = false;
+        state.deleteTrnxError = action.error.message;
+        state.deleteTrnxSuccess = false;
+      });
+
+    builder
+      .addCase(editTrnx.pending, (state) => {
+        state.editTrnxLoading = true;
+      })
+      .addCase(editTrnx.fulfilled, (state) => {
+        state.editTrnxLoading = false;
+        state.editTrnxError = false;
+        state.editTrnxSuccess = true;
+      })
+      .addCase(editTrnx.rejected, (state, action) => {
+        state.editTrnxLoading = false;
+        state.editTrnxError = action.error.message;
+        state.editTrnxSuccess = false;
+      });
   },
 });
 
-export const { reset } = trnxSlice.actions;
+export const { reset, resetDeleteTrnx } = trnxSlice.actions;
 export default trnxSlice.reducer;

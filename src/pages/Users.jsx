@@ -3,9 +3,10 @@ import Datatable from "../components/Datatable";
 import { getAccessToken } from "../utils/utilities";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails, getUsers } from "../features/userSlice";
+import { getUserDetails, getUsers, removeUser } from "../features/userSlice";
 import Pagescontainer from "../components/Pagescontainer";
 import Userdetails from "./Userdetails";
+import DeleteModal from "./delete/deleteModal";
 
 const header = [
   {
@@ -38,6 +39,7 @@ const Users = () => {
   const [myUsers, setMyUsers] = useState([]);
   const [action, setAction] = useState(null);
   const [id, setId] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const [user, setUser] = useState(null);
 
@@ -50,10 +52,20 @@ const Users = () => {
     setAction(option);
   };
 
-  const closeEdit = (row, option) => {
+  const closeEdit = () => {
     setId(null);
     setAction("");
     setUser(null);
+  };
+
+  const closeDelete = () => {
+    setDeleteModal(false);
+    setAction("");
+  };
+
+  const deleteUser = (e) => {
+    e.preventDefault();
+    dispatch(removeUser(id));
   };
 
   useEffect(() => {
@@ -72,9 +84,10 @@ const Users = () => {
 
   useEffect(() => {
     if (action === "view") {
-      // navigate("/user")
       dispatch(getUserDetails(id));
-      console.log("view", id);
+    }
+    if (action === "delete") {
+      setDeleteModal(true);
     }
   }, [action, dispatch]);
 
@@ -107,6 +120,9 @@ const Users = () => {
       />
       {action === "view" && id && (
         <Userdetails details={user} closeEdit={closeEdit} />
+      )}
+      {deleteModal && (
+        <DeleteModal close={closeDelete} deleteUser={deleteUser} />
       )}
     </Pagescontainer>
   );

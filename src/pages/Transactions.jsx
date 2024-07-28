@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTrnxs } from "../features/trnxSlice";
 import Approvemodal from "../components/trans/Approvemodal";
 import Pagescontainer from "../components/Pagescontainer";
+import Edittrans from "../components/trans/Edittrans";
+import Rejectmodal from "../components/trans/Rejectmodal";
+import Deletetrnx from "../components/trans/Deletetrnx";
 
 const header = [
   {
@@ -39,22 +42,25 @@ const Transactions = () => {
   const dispatch = useDispatch();
   const accessToken = getAccessToken();
   const [trnxRow, setTrnxRow] = useState(null);
-  const [approveModal, setApproveModal] = useState(null);
   const [myTrnxs, setMyTrnxs] = useState([]);
+  const [action, setAction] = useState(null);
+  const [id, setId] = useState(null);
+  const [editModal, setEditModal] = useState(false);
+
   const { getTransactionError, getTransactionLoading, trnxs } = useSelector(
     (state) => state.trnx
   );
 
   const handleClick = (row, option) => {
+    setId(row._id);
     setTrnxRow(row);
-    setApproveModal(true);
-    console.log(row);
-    console.log(option);
+    setAction(option);
   };
 
   const closeModal = () => {
     console.log("Clicked close");
-    setApproveModal(false);
+    setAction("");
+    setId(null);
   };
 
   useEffect(() => {
@@ -82,9 +88,15 @@ const Transactions = () => {
         customClass={"text-white px-4 py-2 bg-green-500 text-xs rounded-sm"}
       />
 
-      {approveModal && (
+      {action === "approve" ? (
         <Approvemodal trnxRow={trnxRow} closeModal={closeModal} />
-      )}
+      ) : action === "view" ? (
+        <Edittrans close={closeModal} trnxRow={trnxRow} />
+      ) : action === "reject" ? (
+        <Rejectmodal trnxRow={trnxRow} closeModal={closeModal} />
+      ) : action === "delete" ? (
+        <Deletetrnx trnxRow={trnxRow} closeDelete={closeModal} />
+      ) : null}
     </Pagescontainer>
   );
 };
