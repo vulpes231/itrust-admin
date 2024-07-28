@@ -101,7 +101,7 @@ const Datatable = ({
                   <option value="view">Edit</option>
                   <option value="delete">Delete</option>
                   {row.trnxType && <option value="approve">Approve</option>}
-                  {row.occupation && <option value="suspend">Suspend</option>}
+                  {row.currency && <option value="suspend">Suspend</option>}
                   {row.trnxType && <option value="reject">Reject</option>}
                   {row.user && <option value="address">Set address</option>}
                 </select>

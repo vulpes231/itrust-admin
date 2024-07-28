@@ -40,7 +40,7 @@ export const setWallet = createAsyncThunk(
   async (FormData) => {
     try {
       const accessToken = getAccessToken();
-      const url = `${liveServer}/wallet`;
+      const url = `${devServer}/wallet`;
       const response = await axios.put(url, FormData, {
         headers: {
           "Content-Type": "application/json",

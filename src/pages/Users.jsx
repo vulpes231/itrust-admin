@@ -3,8 +3,10 @@ import Datatable from "../components/Datatable";
 import { getAccessToken } from "../utils/utilities";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../features/userSlice";
+import { getUserDetails, getUsers } from "../features/userSlice";
 import Pagescontainer from "../components/Pagescontainer";
+import Userdetails from "./Userdetails";
+
 const header = [
   {
     id: "username",
@@ -34,13 +36,24 @@ const Users = () => {
   const accessToken = getAccessToken();
 
   const [myUsers, setMyUsers] = useState([]);
+  const [action, setAction] = useState(null);
+  const [id, setId] = useState(null);
 
-  const { getError, getLoading, users } = useSelector((state) => state.user);
+  const [user, setUser] = useState(null);
+
+  const { getError, getLoading, users, userDetails } = useSelector(
+    (state) => state.user
+  );
 
   const editUser = (row, option) => {
-    // e.preventDefault()
-    console.log(row);
-    console.log(option);
+    setId(row._id);
+    setAction(option);
+  };
+
+  const closeEdit = (row, option) => {
+    setId(null);
+    setAction("");
+    setUser(null);
   };
 
   useEffect(() => {
@@ -57,6 +70,29 @@ const Users = () => {
     }
   }, [users]);
 
+  useEffect(() => {
+    if (action === "view") {
+      // navigate("/user")
+      dispatch(getUserDetails(id));
+      console.log("view", id);
+    }
+  }, [action, dispatch]);
+
+  useEffect(() => {
+    if (userDetails) {
+      setUser(userDetails);
+    }
+  }, [userDetails]);
+
+  if (getLoading) {
+    return (
+      <div className="lg:w-[1200px] mx-auto">
+        <h3 className="font-bold text-lg p-4">Users</h3>
+        <p>Fetching users...</p>
+      </div>
+    );
+  }
+
   return (
     <Pagescontainer>
       <h3 className="font-bold text-lg p-4">Users</h3>
@@ -69,6 +105,9 @@ const Users = () => {
           "text-white px-4 py-2 bg-blue-500 text-xs rounded-sm capitalize"
         }
       />
+      {action === "view" && id && (
+        <Userdetails details={user} closeEdit={closeEdit} />
+      )}
     </Pagescontainer>
   );
 };

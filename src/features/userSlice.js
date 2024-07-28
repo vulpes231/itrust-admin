@@ -8,11 +8,15 @@ const initialState = {
   getError: false,
   getSuccess: false,
   users: [],
+  detailsLoading: false,
+  detailsError: false,
+  userDetails: null,
 };
+
+const accessToken = getAccessToken();
 
 export const getUsers = createAsyncThunk("user/getUsers", async (formData) => {
   try {
-    const accessToken = getAccessToken();
     const url = `${liveServer}/users`;
     const response = await axios.get(url, {
       headers: {
@@ -32,6 +36,30 @@ export const getUsers = createAsyncThunk("user/getUsers", async (formData) => {
   }
 });
 
+export const getUserDetails = createAsyncThunk(
+  "user/getUserDetails",
+  async (id) => {
+    const url = `${devServer}/users/${id}`;
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // console.log("Users", response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMsg = error.response.data.message;
+        throw new Error(errorMsg);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -41,6 +69,11 @@ const userSlice = createSlice({
       state.getError = false;
       state.getSuccess = false;
       state.users = [];
+    },
+    resetUserDetails(state) {
+      state.detailsLoading = false;
+      state.detailsError = false;
+      state.userDetail = null;
     },
   },
   extraReducers: (builder) => {
@@ -60,8 +93,22 @@ const userSlice = createSlice({
         state.getSuccess = false;
         state.users = [];
       });
+    builder
+      .addCase(getUserDetails.pending, (state) => {
+        state.detailsLoading = true;
+      })
+      .addCase(getUserDetails.fulfilled, (state, action) => {
+        state.detailsLoading = false;
+        state.detailsError = false;
+        state.userDetails = action.payload;
+      })
+      .addCase(getUserDetails.rejected, (state, action) => {
+        state.detailsLoading = false;
+        state.detailsError = action.error.message;
+        state.userDetails = null;
+      });
   },
 });
 
-export const { reset } = userSlice.actions;
+export const { reset, resetUserDetails } = userSlice.actions;
 export default userSlice.reducer;
