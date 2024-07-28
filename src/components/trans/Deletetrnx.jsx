@@ -6,7 +6,6 @@ import { deleteTrnx } from "../../features/trnxSlice";
 const Deletetrnx = ({ closeDelete, trnxRow }) => {
   const dispatch = useDispatch();
   const [id, setId] = useState(null);
-  const [creator, setCreator] = useState(null);
 
   const { deleteTrnxLoading, deleteTrnxError, deleteTrnxSuccess } = useSelector(
     (state) => state.trnx
@@ -15,21 +14,24 @@ const Deletetrnx = ({ closeDelete, trnxRow }) => {
   const removeTransaction = (e) => {
     const data = {
       transactionId: id,
-      creator: creator,
     };
     dispatch(deleteTrnx(data));
   };
 
   useEffect(() => {
+    let timeout;
     if (deleteTrnxSuccess) {
-      window.location.reload();
+      timeout = 3000;
+      setTimeout(() => {
+        window.location.reload();
+      }, timeout);
     }
+    return () => clearTimeout(timeout);
   }, [deleteTrnxSuccess]);
 
   useEffect(() => {
     if (trnxRow) {
       setId(trnxRow._id);
-      setCreator(trnxRow.creator);
     }
   }, [trnxRow]);
   return (
@@ -38,11 +40,16 @@ const Deletetrnx = ({ closeDelete, trnxRow }) => {
         <span>
           <MdWarning />
         </span>
-        Confirm trasaction deletion
+        Confirm transaction deletion
       </p>
 
       {deleteTrnxError && (
         <p className="text-xs font-thin text-red-500">{deleteTrnxError}</p>
+      )}
+      {deleteTrnxSuccess && (
+        <p className="text-xs font-thin text-green-500">
+          deleted successfully.
+        </p>
       )}
       <div className="flex justify-between items-center">
         <button

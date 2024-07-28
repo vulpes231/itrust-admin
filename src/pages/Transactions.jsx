@@ -9,6 +9,7 @@ import Pagescontainer from "../components/Pagescontainer";
 import Edittrans from "../components/trans/Edittrans";
 import Rejectmodal from "../components/trans/Rejectmodal";
 import Deletetrnx from "../components/trans/Deletetrnx";
+import Createtransaction from "../components/trans/Createtransaction";
 
 const header = [
   {
@@ -45,7 +46,8 @@ const Transactions = () => {
   const [myTrnxs, setMyTrnxs] = useState([]);
   const [action, setAction] = useState(null);
   const [id, setId] = useState(null);
-  const [editModal, setEditModal] = useState(false);
+
+  const [createModal, setCreateModal] = useState(false);
 
   const { getTransactionError, getTransactionLoading, trnxs } = useSelector(
     (state) => state.trnx
@@ -61,6 +63,13 @@ const Transactions = () => {
     console.log("Clicked close");
     setAction("");
     setId(null);
+  };
+
+  const handleCreateModal = () => {
+    setCreateModal(true);
+  };
+  const closeCreateModal = () => {
+    setCreateModal(false);
   };
 
   useEffect(() => {
@@ -79,7 +88,15 @@ const Transactions = () => {
 
   return (
     <Pagescontainer>
-      <h3 className="font-bold text-lg p-4">Transactions</h3>
+      <div className="flex justify-between items-center py-2">
+        <h3 className="font-bold text-lg p-4">Transactions</h3>
+        <button
+          onClick={handleCreateModal}
+          className="px-5 py-2.5 rounded-3xl bg-purple-500 text-white text-xs font-medium hover:bg-purple-600 capitalize"
+        >
+          create transaction
+        </button>
+      </div>
       <Datatable
         headers={header}
         data={myTrnxs}
@@ -97,6 +114,8 @@ const Transactions = () => {
       ) : action === "delete" ? (
         <Deletetrnx trnxRow={trnxRow} closeDelete={closeModal} />
       ) : null}
+
+      {createModal && <Createtransaction close={closeCreateModal} />}
     </Pagescontainer>
   );
 };

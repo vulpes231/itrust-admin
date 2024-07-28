@@ -1,45 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { approveTrnxs } from "../../features/trnxSlice";
+import { rejectTrnx, resetRejectTrnx } from "../../features/trnxSlice";
 
 const Rejectmodal = ({ closeModal, trnxRow }) => {
   const dispatch = useDispatch();
   const initialState = {
     transactionId: trnxRow?._id,
-    newStatus: "",
   };
   const [form, setForm] = useState(initialState);
 
-  //   const { approveTrnxLoading, approveTrnxError, approveTrnxSuccess } =
-  //     useSelector((state) => state.trnx);
+  const { rejectTrnxLoading, rejectTrnxError, rejectTrnxSuccess } = useSelector(
+    (state) => state.trnx
+  );
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleApproval = (e) => {
+  const handleRejection = (e) => {
     e.preventDefault();
     console.log(form);
-    dispatch(approveTrnxs(form));
+    dispatch(rejectTrnx(form));
   };
 
   const resetInput = () => {
     setForm(initialState);
   };
 
-  //   useEffect(() => {
-  //     if (approveTrnxSuccess) {
-  //       resetInput();
-  //       setTimeout(() => {
-  //         window.location.reload();
-  //       }, [3000]);
-  //     }
-  //   }, [approveTrnxSuccess]);
+  useEffect(() => {
+    let timeout;
+    if (rejectTrnxSuccess) {
+      timeout = 3000;
+      setTimeout(() => {
+        dispatch(resetRejectTrnx());
+        window.location.reload();
+      }, timeout);
+    }
+    return () => clearTimeout(timeout);
+  }, [rejectTrnxSuccess, dispatch]);
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-25 text-sm font-medium">
@@ -57,7 +52,7 @@ const Rejectmodal = ({ closeModal, trnxRow }) => {
             <input
               type="text"
               id="transactionId"
-              value={trnxRow._id}
+              value={trnxRow?._id}
               readOnly
               className="border p-2 w-full text-xs font-normal focus:outline-purple-500"
             />
@@ -67,44 +62,39 @@ const Rejectmodal = ({ closeModal, trnxRow }) => {
             <input
               type="text"
               id="creator"
-              value={trnxRow.creator}
+              value={trnxRow?.creator}
               readOnly
               className="border p-2 w-full text-xs font-normal focus:outline-purple-500"
             />
           </div>
 
           <div>
-            <label htmlFor="newStatus">New Status:</label>
-            <select
+            <label htmlFor="status">status</label>
+            <input
               type="text"
-              id="newStatus"
               name="newStatus"
-              placeholder="Enter Address"
-              value={form.newStatus}
-              onChange={handleChange}
+              placeholder={trnxRow?.status}
+              readOnly
               className="border p-2 w-full bg-transparent focus:outline-purple-500"
-            >
-              <option value="pending">pending</option>
-              <option value="failed">failed</option>
-            </select>
+            />
           </div>
 
-          {/* {approveTrnxSuccess && (
+          {rejectTrnxSuccess && (
             <p className="text-green-500 font-medium text-xs">
-              Transaction approved successfully.
+              Transaction rejected successfully.
             </p>
-          )} */}
-          {/* {approveTrnxError && (
+          )}
+          {rejectTrnxError && (
             <p className="text-red-500 font-medium text-xs">
-              {approveTrnxError}
+              {rejectTrnxError}
             </p>
-          )} */}
+          )}
 
           <button
-            onClick={handleApproval}
+            onClick={handleRejection}
             className="p-2 bg-purple-500 text-white capitalize"
           >
-            Reject
+            {!rejectTrnxLoading ? "Reject" : "Wait..."}
           </button>
         </form>
       </div>
