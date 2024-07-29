@@ -17,6 +17,14 @@ const header = [
     name: "creator ID",
   },
   {
+    id: "email",
+    name: "email",
+  },
+  {
+    id: "username",
+    name: "username",
+  },
+  {
     id: "walletType",
     name: "Coin",
   },
@@ -68,6 +76,7 @@ const Transactions = () => {
   const handleCreateModal = () => {
     setCreateModal(true);
   };
+
   const closeCreateModal = () => {
     setCreateModal(false);
   };

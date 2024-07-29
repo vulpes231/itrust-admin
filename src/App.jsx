@@ -5,6 +5,7 @@ import { Dashboard, Signup, Transactions, Wallets, Users } from "./pages";
 import { getAccessToken } from "./utils/utilities";
 import Bots from "./pages/Bots";
 import Userdetails from "./pages/Userdetails";
+import Trades from "./pages/Trades";
 
 const App = () => {
   const [token, setToken] = useState(false);
@@ -47,7 +48,7 @@ const App = () => {
         <Route path="/users" element={<Users />} />
         <Route path="/wallets" element={<Wallets />} />
         <Route path="/bots" element={<Bots />} />
-        {/* <Route path="/user" element={<Userdetails />} /> */}
+        <Route path="/trades" element={<Trades />} />
       </Routes>
     </div>
   );
