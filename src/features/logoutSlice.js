@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const logoutAdmin = createAsyncThunk("logout/logoutAdmin", async () => {
-  const url = `${devServer}/signout`;
+  const url = `${liveServer}/signout`;
   const accessToken = getAccessToken();
   try {
     const response = await axios.post(

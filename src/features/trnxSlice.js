@@ -77,7 +77,7 @@ export const deleteTrnx = createAsyncThunk(
   async (formData) => {
     try {
       const accessToken = getAccessToken();
-      const url = `${devServer}/trnx/`;
+      const url = `${liveServer}/trnx/`;
       const response = await axios.post(url, formData, {
         headers: {
           "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export const deleteTrnx = createAsyncThunk(
 export const editTrnx = createAsyncThunk("trnx/editTrnx", async (formData) => {
   try {
     const accessToken = getAccessToken();
-    const url = `${devServer}/trnx/`;
+    const url = `${liveServer}/trnx/`;
     const response = await axios.put(url, formData, {
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +124,7 @@ export const rejectTrnx = createAsyncThunk(
   async (formData) => {
     try {
       const accessToken = getAccessToken();
-      const url = `${devServer}/trnx/reject`;
+      const url = `${liveServer}/trnx/reject`;
       const response = await axios.put(url, formData, {
         headers: {
           "Content-Type": "application/json",
@@ -149,7 +149,7 @@ export const createTrnx = createAsyncThunk(
   async (formData) => {
     try {
       const accessToken = getAccessToken();
-      const url = `${devServer}/trnx/create`;
+      const url = `${liveServer}/trnx/create`;
       const response = await axios.post(url, formData, {
         headers: {
           "Content-Type": "application/json",

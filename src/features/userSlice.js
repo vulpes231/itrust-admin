@@ -42,7 +42,7 @@ export const getUsers = createAsyncThunk("user/getUsers", async (formData) => {
 export const getUserDetails = createAsyncThunk(
   "user/getUserDetails",
   async (id) => {
-    const url = `${devServer}/users/${id}`;
+    const url = `${liveServer}/users/${id}`;
     try {
       const response = await axios.get(url, {
         headers: {
@@ -66,7 +66,7 @@ export const getUserDetails = createAsyncThunk(
 export const removeUser = createAsyncThunk("user/removeUser", async (id) => {
   // console.log(userId);
   try {
-    const url = `${devServer}/users/delete/${id}`;
+    const url = `${liveServer}/users/delete/${id}`;
     const response = await axios.put(
       url,
       {},
