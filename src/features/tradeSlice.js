@@ -19,7 +19,7 @@ const initialState = {
 };
 
 export const getAllTrades = createAsyncThunk("trade/getAllTrades", async () => {
-  const url = `${devServer}/trade`;
+  const url = `${liveServer}/trade`;
   const accessToken = getAccessToken();
   try {
     const response = await axios.get(url, {
@@ -43,7 +43,7 @@ export const getAllTrades = createAsyncThunk("trade/getAllTrades", async () => {
 export const createNewTrade = createAsyncThunk(
   "trade/createNewTrade",
   async (formData) => {
-    const url = `${devServer}/managetrade`;
+    const url = `${liveServer}/managetrade`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.post(url, formData, {
@@ -68,7 +68,7 @@ export const createNewTrade = createAsyncThunk(
 export const editTrade = createAsyncThunk(
   "trade/editTrade",
   async (formData) => {
-    const url = `${devServer}/managetrade`;
+    const url = `${liveServer}/managetrade`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.put(url, formData, {
@@ -91,7 +91,7 @@ export const editTrade = createAsyncThunk(
 );
 
 export const deleteTrade = createAsyncThunk("trade/deleteTrade", async (id) => {
-  const url = `${devServer}/managetrade/${id}`;
+  const url = `${liveServer}/managetrade/${id}`;
   const accessToken = getAccessToken();
   try {
     const response = await axios.put(
