@@ -16,18 +16,27 @@ const initialState = {
   deleted: false,
 };
 
-const accessToken = getAccessToken();
-
-export const getUsers = createAsyncThunk("user/getUsers", async (formData) => {
+export const getUsers = createAsyncThunk("user/getUsers", async () => {
   try {
     const url = `${liveServer}/users`;
+    const accessToken = getAccessToken();
+
+    // console.log(accessToken);
+
+    if (
+      !accessToken ||
+      typeof accessToken !== "string" ||
+      !accessToken.split(".").length === 3
+    ) {
+      throw new Error("Invalid token format");
+    }
+
     const response = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    // console.log("Users", response.data);
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -43,6 +52,7 @@ export const getUserDetails = createAsyncThunk(
   "user/getUserDetails",
   async (id) => {
     const url = `${liveServer}/users/${id}`;
+    const accessToken = getAccessToken();
     try {
       const response = await axios.get(url, {
         headers: {
@@ -67,6 +77,7 @@ export const removeUser = createAsyncThunk("user/removeUser", async (id) => {
   // console.log(userId);
   try {
     const url = `${liveServer}/users/delete/${id}`;
+    const accessToken = getAccessToken();
     const response = await axios.put(
       url,
       {},

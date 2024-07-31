@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Box from "./Box";
-import {} from "react-icons/fa";
+import { FaArchive } from "react-icons/fa";
 import { FaUserGroup, FaBots } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "../../utils/utilities";
@@ -10,6 +10,7 @@ import { getWallet } from "../../features/walletSlice";
 import { getAllBots } from "../../features/botSlice";
 import { FaWallet } from "react-icons/fa6";
 import { SiMarketo } from "react-icons/si";
+import { getAllTrades } from "../../features/tradeSlice";
 
 const Stats = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const Stats = () => {
   const { trnxs } = useSelector((state) => state.trnx);
   const { wallet } = useSelector((state) => state.wallet);
   const { bots } = useSelector((state) => state.bot);
+  const { trades } = useSelector((state) => state.trade);
 
   useEffect(() => {
     if (accessToken) {
@@ -25,6 +27,7 @@ const Stats = () => {
       dispatch(getUsers());
       dispatch(getWallet());
       dispatch(getAllBots());
+      dispatch(getAllTrades());
     }
   }, [accessToken, dispatch]);
   return (
@@ -48,6 +51,11 @@ const Stats = () => {
         icon={<FaBots />}
         title={"bots"}
         value={bots?.length ? bots.length : 0}
+      />
+      <Box
+        icon={<FaArchive />}
+        title={"trades"}
+        value={trades?.trades?.length ? trades.trades.length : 0}
       />
     </div>
   );

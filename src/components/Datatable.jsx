@@ -54,18 +54,18 @@ const Datatable = ({
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border-gray-200 shadow-md rounded">
-        <thead className="bg-gray-300">
+      <table className="min-w-full bg-white border border-slate-200 shadow-md rounded">
+        <thead className="bg-slate-200 ">
           <tr>
             {headers?.map((hdr, index) => (
               <th
                 key={index}
-                className="px-6 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
+                className="px-6 py-3 whitespace-nowrap text-left text-xs font-normal capitalize tracking-wider"
               >
                 {hdr.name}
               </th>
             ))}
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 capitalize tracking-wider">
               Actions
             </th>
           </tr>

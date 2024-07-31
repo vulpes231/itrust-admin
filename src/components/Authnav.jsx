@@ -8,7 +8,7 @@ import Usermenu from "./Usermenu";
 const Authnav = ({ toggle, handleToggle, setToken }) => {
   return (
     <header className="w-full isolate top-0 bg-white">
-      <nav className="p-4 flex justify-between items-center lg:w-[1200px] mx-auto">
+      <nav className="p-4 flex justify-between items-center lg:w-[990px] mx-auto">
         <figure className="">
           <img src={light} alt="" className="w-[35px]" />
         </figure>

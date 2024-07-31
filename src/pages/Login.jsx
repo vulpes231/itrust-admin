@@ -52,7 +52,7 @@ const Login = ({ setToken }) => {
   }, [accessToken, admin, dispatch, navigate]);
   return (
     <Section>
-      <div className="w-full h-full flex items-center justify-center">
+      <div className=" flex items-center justify-center  w-full h-full">
         <form
           onSubmit={handleLogin}
           action=""

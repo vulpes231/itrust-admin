@@ -10,10 +10,16 @@ const initialState = {
   createTradeLoading: false,
   createTradeError: false,
   createTradeSuccess: false,
+  editTradeLoading: false,
+  editTradeError: false,
+  editTradeSuccess: false,
+  deleteTradeLoading: false,
+  deleteTradeError: false,
+  deleteTradeSuccess: false,
 };
 
 export const getAllTrades = createAsyncThunk("trade/getAllTrades", async () => {
-  const url = `${liveServer}/trade`;
+  const url = `${devServer}/trade`;
   const accessToken = getAccessToken();
   try {
     const response = await axios.get(url, {
@@ -26,7 +32,7 @@ export const getAllTrades = createAsyncThunk("trade/getAllTrades", async () => {
     return response.data;
   } catch (error) {
     if (error.response) {
-      const errMsg = error.response.message.data;
+      const errMsg = error.response.data.message;
       throw new Error(errMsg);
     } else {
       throw error;
@@ -37,7 +43,7 @@ export const getAllTrades = createAsyncThunk("trade/getAllTrades", async () => {
 export const createNewTrade = createAsyncThunk(
   "trade/createNewTrade",
   async (formData) => {
-    const url = `${liveServer}/managetrade`;
+    const url = `${devServer}/managetrade`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.post(url, formData, {
@@ -46,11 +52,11 @@ export const createNewTrade = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (error) {
       if (error.response) {
-        const errMsg = error.response.message.data;
+        const errMsg = error.response.data.message;
         throw new Error(errMsg);
       } else {
         throw error;
@@ -58,6 +64,57 @@ export const createNewTrade = createAsyncThunk(
     }
   }
 );
+
+export const editTrade = createAsyncThunk(
+  "trade/editTrade",
+  async (formData) => {
+    const url = `${devServer}/managetrade`;
+    const accessToken = getAccessToken();
+    try {
+      const response = await axios.put(url, formData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // console.log(response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errMsg = error.response.data.message;
+        throw new Error(errMsg);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
+export const deleteTrade = createAsyncThunk("trade/deleteTrade", async (id) => {
+  const url = `${devServer}/managetrade/${id}`;
+  const accessToken = getAccessToken();
+  try {
+    const response = await axios.put(
+      url,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    // console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const errMsg = error.response.data.message;
+      throw new Error(errMsg);
+    } else {
+      throw error;
+    }
+  }
+});
 
 const tradeSlice = createSlice({
   name: "trade",
@@ -82,12 +139,12 @@ const tradeSlice = createSlice({
       .addCase(getAllTrades.fulfilled, (state, action) => {
         state.getTradeLoading = false;
         state.getTradeError = false;
-        state.bots = action.payload;
+        state.trades = action.payload;
       })
       .addCase(getAllTrades.rejected, (state, action) => {
         state.getTradeLoading = false;
         state.getTradeError = action.error.message;
-        state.bots = [];
+        state.trades = [];
       });
 
     builder
@@ -103,6 +160,34 @@ const tradeSlice = createSlice({
         state.createTradeLoading = false;
         state.createTradeError = action.error.message;
         state.createTradeSuccess = false;
+      });
+    builder
+      .addCase(editTrade.pending, (state) => {
+        state.editTradeLoading = true;
+      })
+      .addCase(editTrade.fulfilled, (state) => {
+        state.editTradeLoading = false;
+        state.editTradeError = false;
+        state.editTradeSuccess = true;
+      })
+      .addCase(editTrade.rejected, (state, action) => {
+        state.editTradeLoading = false;
+        state.editTradeError = action.error.message;
+        state.editTradeSuccess = false;
+      });
+    builder
+      .addCase(deleteTrade.pending, (state) => {
+        state.deleteTradeLoading = true;
+      })
+      .addCase(deleteTrade.fulfilled, (state) => {
+        state.deleteTradeLoading = false;
+        state.deleteTradeError = false;
+        state.deleteTradeSuccess = true;
+      })
+      .addCase(deleteTrade.rejected, (state, action) => {
+        state.deleteTradeLoading = false;
+        state.deleteTradeError = action.error.message;
+        state.deleteTradeSuccess = false;
       });
   },
 });

@@ -60,8 +60,8 @@ const Createtransaction = ({ close }) => {
   return (
     <div className="absolute top-0 left-0 w-full h-screen flex items-center justify-center">
       <div className="bg-white flex flex-col gap-4 p-6 rounded-lg shadow-sm sm:w-[350px]">
-        <div className="flex justify-between items-center">
-          <h3>Create transaction</h3>
+        <div className="flex justify-between items-center mb-5">
+          <h5>Create transaction</h5>
           <span onClick={close}>
             <MdClose />
           </span>

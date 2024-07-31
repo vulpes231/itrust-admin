@@ -8,10 +8,10 @@ import { Newbot } from "../components";
 import Pagescontainer from "../components/Pagescontainer";
 
 const header = [
-  {
-    id: "_id",
-    name: "botId",
-  },
+  // {
+  //   id: "_id",
+  //   name: "botId",
+  // },
   {
     id: "name",
     name: "name",
@@ -32,10 +32,10 @@ const header = [
     id: "aum",
     name: "aum",
   },
-  {
-    id: "usersPurchased",
-    name: "Owned",
-  },
+  // {
+  //   id: "usersPurchased",
+  //   name: "Owned",
+  // },
   {
     id: "status",
     name: "status",

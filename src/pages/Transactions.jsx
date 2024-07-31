@@ -12,18 +12,18 @@ import Deletetrnx from "../components/trans/Deletetrnx";
 import Createtransaction from "../components/trans/Createtransaction";
 
 const header = [
-  {
-    id: "creator",
-    name: "creator ID",
-  },
+  // {
+  //   id: "creator",
+  //   name: "creator ID",
+  // },
   {
     id: "email",
-    name: "email",
+    name: "creator",
   },
-  {
-    id: "username",
-    name: "username",
-  },
+  // {
+  //   id: "username",
+  //   name: "username",
+  // },
   {
     id: "walletType",
     name: "Coin",
