@@ -12,6 +12,7 @@ const authLinks = [
   { id: "wallet", title: "Wallets", path: "/wallets" },
   { id: "bot", title: "Bots", path: "/bots" },
   { id: "trade", title: "Trades", path: "/trades" },
+  { id: "swap", title: "Swap", path: "/swap" },
 ];
 
 export { devServer, liveServer, links, authLinks };

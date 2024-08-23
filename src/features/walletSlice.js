@@ -11,6 +11,9 @@ const initialState = {
   setWalletLoading: false,
   setWalletError: false,
   setWalletSuccess: false,
+  swapLoading: false,
+  swapError: false,
+  fundSwapped: false,
 };
 
 export const getWallet = createAsyncThunk("wallet/getWallet", async () => {
@@ -60,6 +63,31 @@ export const setWallet = createAsyncThunk(
   }
 );
 
+export const swapUserFunds = createAsyncThunk(
+  "wallet/swapUserFunds",
+  async (FormData) => {
+    try {
+      const accessToken = getAccessToken();
+      const url = `${devServer}/wallet`;
+      const response = await axios.post(url, FormData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // console.log("Address", response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMsg = error.response.data.message;
+        throw new Error(errorMsg);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
 const walletSlice = createSlice({
   name: "wallet",
   initialState,
@@ -92,19 +120,34 @@ const walletSlice = createSlice({
         state.wallet = [];
       });
 
-    builder.addCase(setWallet.pending, (state) => {
-      state.setWalletLoading = true;
-    });
-    builder.addCase(setWallet.fulfilled, (state) => {
-      state.setWalletLoading = false;
-      state.setWalletError = false;
-      state.setWalletSuccess = true;
-    });
-    builder.addCase(setWallet.rejected, (state, action) => {
-      state.setWalletLoading = false;
-      state.setWalletError = action.error.message;
-      state.setWalletSuccess = false;
-    });
+    builder
+      .addCase(setWallet.pending, (state) => {
+        state.setWalletLoading = true;
+      })
+      .addCase(setWallet.fulfilled, (state) => {
+        state.setWalletLoading = false;
+        state.setWalletError = false;
+        state.setWalletSuccess = true;
+      })
+      .addCase(setWallet.rejected, (state, action) => {
+        state.setWalletLoading = false;
+        state.setWalletError = action.error.message;
+        state.setWalletSuccess = false;
+      });
+    builder
+      .addCase(swapUserFunds.pending, (state) => {
+        state.swapLoading = true;
+      })
+      .addCase(swapUserFunds.fulfilled, (state) => {
+        state.swapLoading = false;
+        state.swapError = false;
+        state.fundSwapped = true;
+      })
+      .addCase(swapUserFunds.rejected, (state, action) => {
+        state.swapLoading = false;
+        state.swapError = action.error.message;
+        state.fundSwapped = false;
+      });
   },
 });
 

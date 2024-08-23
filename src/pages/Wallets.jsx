@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Datatable from "../components/Datatable";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAccessToken } from "../utils/utilities";
 import { getWallet } from "../features/walletSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -62,7 +62,15 @@ const Wallets = () => {
 
   return (
     <Pagescontainer>
-      <h3 className="font-bold text-lg p-4">Wallets</h3>
+      <div className="flex justify-between items-center">
+        <h3 className="font-bold text-lg p-4">Wallets</h3>
+        <Link
+          className="text-xs font-medium bg-purple-500 py-2.5 px-5 rounded-3xl text-white"
+          to={"/mastercontrol"}
+        >
+          Master wallet
+        </Link>
+      </div>
       <Datatable
         headers={header}
         data={myWallets}

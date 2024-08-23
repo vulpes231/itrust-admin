@@ -6,6 +6,8 @@ import { getAccessToken } from "./utils/utilities";
 import Bots from "./pages/Bots";
 import Userdetails from "./pages/Userdetails";
 import Trades from "./pages/Trades";
+import Masterwallet from "./pages/Masterwallet";
+import Swap from "./pages/Swap";
 
 const App = () => {
   const [token, setToken] = useState(false);
@@ -49,6 +51,8 @@ const App = () => {
         <Route path="/wallets" element={<Wallets />} />
         <Route path="/bots" element={<Bots />} />
         <Route path="/trades" element={<Trades />} />
+        <Route path="/mastercontrol" element={<Masterwallet />} />
+        <Route path="/swap" element={<Swap />} />
       </Routes>
     </div>
   );
