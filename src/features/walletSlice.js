@@ -68,7 +68,7 @@ export const swapUserFunds = createAsyncThunk(
   async (FormData) => {
     try {
       const accessToken = getAccessToken();
-      const url = `${devServer}/wallet`;
+      const url = `${liveServer}/wallet`;
       const response = await axios.post(url, FormData, {
         headers: {
           "Content-Type": "application/json",

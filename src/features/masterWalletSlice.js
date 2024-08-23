@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { devServer } from "../constants";
+import { devServer, liveServer } from "../constants";
 import { getAccessToken } from "../utils/utilities";
 import axios from "axios";
 
@@ -16,7 +16,7 @@ const initialState = {
 };
 
 export const getAllCoins = createAsyncThunk("master/getAllCoins", async () => {
-  const url = `${devServer}/walletaddress`;
+  const url = `${liveServer}/walletaddress`;
   const accessToken = getAccessToken();
   try {
     const response = await axios.get(url, {
@@ -40,7 +40,7 @@ export const getAllCoins = createAsyncThunk("master/getAllCoins", async () => {
 export const createCoin = createAsyncThunk(
   "master/createCoin",
   async (formData) => {
-    const url = `${devServer}/walletaddress`;
+    const url = `${liveServer}/walletaddress`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.post(url, formData, {
@@ -65,7 +65,7 @@ export const createCoin = createAsyncThunk(
 export const updateMasterWallet = createAsyncThunk(
   "master/updateMasterWallet",
   async (formData) => {
-    const url = `${devServer}/walletaddress`;
+    const url = `${liveServer}/walletaddress`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.put(url, formData, {
