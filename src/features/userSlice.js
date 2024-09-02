@@ -111,12 +111,16 @@ export const manageUserBot = createAsyncThunk(
     const url = `${devServer}/users/${id}`;
     const accessToken = getAccessToken();
     try {
-      const response = await axios.put(url, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axios.put(
+        url,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       if (error.response) {

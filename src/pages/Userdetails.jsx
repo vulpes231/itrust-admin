@@ -7,6 +7,9 @@ import queryString from "query-string";
 import { getAccessToken } from "../utils/utilities";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../features/userSlice";
+import Usersettings from "./details/Usersettings";
+import Investing from "./details/Investing";
+import Verification from "./details/Verification";
 
 const Userdetails = ({ details, closeEdit }) => {
   const location = useLocation();
@@ -37,7 +40,13 @@ const Userdetails = ({ details, closeEdit }) => {
       <div className="p-6 flex flex-col gap-6 mb-10 lg:max-w-[900px] lg:mx-auto">
         <Personal user={userDetails} />
         <hr />
+        <Investing user={userDetails} />
+        <hr />
         <Wallet user={userDetails} userId={userId} />
+        <hr />
+        <Verification user={userDetails} />
+        <hr />
+        <Usersettings user={userDetails} />
       </div>
     </div>
   );

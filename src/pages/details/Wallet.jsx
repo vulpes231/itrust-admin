@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Formcontain from "./Formcontain";
-import Divcontain from "./Divcontain";
-import Admininput from "./Admininput";
 import { useDispatch, useSelector } from "react-redux";
 import { setWallet } from "../../features/walletSlice";
 
 const Wallet = ({ user, userId }) => {
-  // console.log(user);
-
-  const bitcoin = user?.assets?.find((ast) => ast.coinName === "bitcoin");
-  const ethereum = user?.assets?.find((ast) => ast.coinName === "ethereum");
-  const tether = user?.assets?.find((ast) => ast.coinName === "tether");
-
-  const initialState = {
-    newAddress: "",
-    coinName: "",
-  };
-
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState({});
 
-  const [form, setForm] = useState(initialState);
+  const [form, setForm] = useState(() => {
+    if (user?.assets) {
+      return user.assets.reduce((acc, asset) => {
+        acc[asset.coinName] = asset.address;
+        return acc;
+      }, {});
+    }
+    return {};
+  });
 
   const { setWalletLoading, setWalletError, setWalletSuccess } = useSelector(
     (state) => state.wallet
@@ -33,11 +28,30 @@ const Wallet = ({ user, userId }) => {
     }));
   };
 
-  const updateUserAsset = (e) => {
+  const updateUserAsset = (e, coinName) => {
     e.preventDefault();
-    console.log(form);
 
-    dispatch(setWallet(form));
+    // Set loading for the specific coinName
+    setLoading((prev) => ({
+      ...prev,
+      [coinName]: true,
+    }));
+
+    // Create an object to send to backend
+    const updatedAssets = {
+      userId,
+      coinName,
+      newAddress: form[coinName] || "", // Ensure default empty string
+    };
+    console.log(updatedAssets);
+
+    dispatch(setWallet(updatedAssets)).finally(() => {
+      // Reset loading state for the specific coinName
+      setLoading((prev) => ({
+        ...prev,
+        [coinName]: false,
+      }));
+    });
   };
 
   useEffect(() => {
@@ -52,34 +66,32 @@ const Wallet = ({ user, userId }) => {
     <form className="capitalize font-medium text-xs flex flex-col gap-4 bg-white p-10 shadow-xl rounded-xl">
       <h5 className="text-xl capitalize">wallet information</h5>
       <div className="flex flex-col gap-4">
-        {user?.assets?.map((asset, index) => {
-          return (
-            <div
-              key={index}
-              className="flex justify-between items-center gap-4"
+        {user?.assets?.map((asset) => (
+          <div
+            key={asset.coinName}
+            className="flex justify-between items-center gap-4"
+          >
+            <label className="w-[15%]">{`${asset.coinName} address:`}</label>
+            <input
+              type="text"
+              value={form[asset.coinName] || ""}
+              onChange={handleChange}
+              placeholder={asset.address}
+              className="border w-[70%] py-2.5 px-4 outline-none focus:border-none focus:outline-purple-500 rounded-xl"
+              name={asset.coinName}
+            />
+            <button
+              onClick={(e) => updateUserAsset(e, asset.coinName)}
+              className="rounded-sm py-2.5 bg-purple-500 text-white w-[15%]"
+              disabled={loading[asset.coinName]} // Disable button if loading
             >
-              <label
-                className="w-[15%]"
-                htmlFor=""
-              >{`${asset.coinName} address:`}</label>
-              <input
-                type="text"
-                value={form.coinName}
-                onChange={handleChange}
-                placeholder={asset.address}
-                className="border w-[70%] py-2.5 px-4 outline-none focus:border-none focus:outline-purple-500 rounded-xl"
-                name={asset.coinName}
-              />
-              <button
-                onClick={updateUserAsset}
-                className="rounded-sm py-2.5 bg-purple-500 text-white w-[15%]"
-              >
-                {!setWalletLoading ? "save" : "Wait.."}
-              </button>
-            </div>
-          );
-        })}
+              {loading[asset.coinName] ? "Wait.." : "Save"}{" "}
+              {/* Change button text based on loading state */}
+            </button>
+          </div>
+        ))}
       </div>
+
       {setWalletError && (
         <p className="text-xs font-thin text-red-500">{setWalletError}</p>
       )}

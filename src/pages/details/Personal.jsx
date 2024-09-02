@@ -4,7 +4,6 @@ import Formcontain from "./Formcontain";
 import Divcontain from "./Divcontain";
 
 const Personal = ({ user }) => {
-  // console.log(user);
   const initialState = {
     firstname: "",
     lastname: "",
@@ -12,6 +11,7 @@ const Personal = ({ user }) => {
     email: "",
     dob: "",
     phone: "",
+    ssn: "",
   };
 
   const [form, setForm] = useState(initialState);
@@ -102,21 +102,21 @@ const Personal = ({ user }) => {
       </Formcontain>
       <Formcontain>
         <div className="flex-1">
-          <label htmlFor="">address</label>
+          <label htmlFor="">social security number</label>
           <Admininput
             type="text"
-            value={form.address}
-            placeHolder={user?.address || "Not set"}
+            value={form.ssn}
+            placeHolder={user?.ssn || "Not set"}
             handleChange={handleChange}
-            name="address"
+            name="ssn"
           />
         </div>
       </Formcontain>
       <button
         onClick={updateUser}
-        className="rounded-sm py-3 mt-4 bg-purple-500 text-white w-[250px]"
+        className="rounded-sm py-3 mt-4 bg-purple-500 text-white w-[150px] text-sm font-semibold"
       >
-        Update personal details
+        Update
       </button>
     </form>
   );
