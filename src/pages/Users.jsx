@@ -20,10 +20,7 @@ const header = [
     id: "phone",
     name: "phone",
   },
-  {
-    id: "occupation",
-    name: "occupation",
-  },
+
   {
     id: "currency",
     name: "currency",
@@ -107,7 +104,7 @@ const Users = () => {
         title={"Edit"}
         handleClick={editUser}
         customClass={
-          "text-white px-4 py-2 bg-blue-500 text-xs rounded-sm capitalize"
+          "text-white px-4 py-2 bg-purple-700 text-xs rounded-sm capitalize"
         }
       />
 

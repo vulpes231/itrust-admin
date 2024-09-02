@@ -12,18 +12,11 @@ import Deletetrnx from "../components/trans/Deletetrnx";
 import Createtransaction from "../components/trans/Createtransaction";
 
 const header = [
-  // {
-  //   id: "creator",
-  //   name: "creator ID",
-  // },
   {
     id: "email",
     name: "creator",
   },
-  // {
-  //   id: "username",
-  //   name: "username",
-  // },
+
   {
     id: "walletType",
     name: "Coin",
@@ -57,7 +50,7 @@ const Transactions = () => {
 
   const [createModal, setCreateModal] = useState(false);
 
-  const { getTransactionError, getTransactionLoading, trnxs } = useSelector(
+  const { getTrnxError, getTrnxLoading, trnxs } = useSelector(
     (state) => state.trnx
   );
 
@@ -95,6 +88,15 @@ const Transactions = () => {
     }
   }, [trnxs]);
 
+  if (getTrnxLoading) {
+    return (
+      <div className="lg:w-[1200px] mx-auto mt-[80px]">
+        <h3 className="font-bold text-lg p-4">Transactions</h3>
+        <p>Fetching transactions...</p>
+      </div>
+    );
+  }
+
   return (
     <Pagescontainer>
       <div className="flex justify-between items-center py-2">
@@ -111,7 +113,7 @@ const Transactions = () => {
         data={myTrnxs}
         title={"Approve"}
         handleClick={handleClick}
-        customClass={"text-white px-4 py-2 bg-green-500 text-xs rounded-sm"}
+        customClass={"text-white px-4 py-2 bg-purple-700 text-xs rounded-sm"}
       />
 
       {action === "approve" ? (

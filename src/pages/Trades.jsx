@@ -55,7 +55,9 @@ const Trades = () => {
   const [id, setId] = useState(null);
   const [showCreateTrade, setshowCreateTrade] = useState(false);
 
-  const { trades } = useSelector((state) => state.trade);
+  const { trades, getTradeLoading, getTradeError } = useSelector(
+    (state) => state.trade
+  );
   const { users } = useSelector((state) => state.user);
 
   // console.log(trades);
@@ -96,6 +98,15 @@ const Trades = () => {
       setMyTrades(trades.trades);
     }
   }, [trades]);
+
+  if (getTradeLoading) {
+    return (
+      <div className="lg:w-[1200px] mx-auto mt-[80px]">
+        <h3 className="font-bold text-lg p-4">Trades</h3>
+        <p>Fetching trades...</p>
+      </div>
+    );
+  }
   return (
     <Pagescontainer>
       <div className="flex justify-between items-center py-2 ">
@@ -113,7 +124,7 @@ const Trades = () => {
         title={"Edit"}
         handleClick={handleClick}
         customClass={
-          "text-white px-4 py-2 bg-blue-500 text-xs rounded-sm capitalize"
+          "text-white px-4 py-2 bg-purple-700 text-xs rounded-sm capitalize"
         }
       />
       {showCreateTrade && (

@@ -76,7 +76,7 @@ const Bots = () => {
 
   if (getBotsLoading) {
     return (
-      <div className="lg:w-[1200px] mx-auto">
+      <div className="lg:w-[1200px] mx-auto mt-[80px]">
         <h3 className="font-bold text-lg p-4">Bots</h3>
         <p>Fetching bots...</p>
       </div>
@@ -88,7 +88,7 @@ const Bots = () => {
         <h3 className="font-bold text-lg p-4">Bots</h3>
         <button
           onClick={showCreateModal}
-          className="inline-flex bg-blue-500 px-5 py-2 rounded-3xl text-white capitalize font-medium text-sm hover:bg-blue-600"
+          className="inline-flex bg-purple-500 px-5 py-2 rounded-3xl text-white capitalize font-medium text-sm hover:bg-purple-600"
         >
           create bot
         </button>
@@ -97,7 +97,7 @@ const Bots = () => {
         data={myBots}
         headers={header}
         title={"Edit bot"}
-        customClass={"text-white px-4 py-2 bg-green-500 text-xs rounded-sm"}
+        customClass={"text-white px-4 py-2 bg-purple-700 text-xs rounded-sm"}
       />
       {createBotModal && <Newbot closeModal={closeCreateModal} />}
     </Pagescontainer>
