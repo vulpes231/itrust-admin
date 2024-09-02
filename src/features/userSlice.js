@@ -20,6 +20,12 @@ const initialState = {
   setSwapLoading: false,
   setSwapError: false,
   setSwapSuccess: false,
+  userUpdated: false,
+  updateUserError: false,
+  updateUserLoading: false,
+  manageSwapSuccess: false,
+  manageSwapError: false,
+  manageSwapLoading: false,
 };
 
 export const getUsers = createAsyncThunk("user/getUsers", async () => {
@@ -135,8 +141,62 @@ export const manageUserBot = createAsyncThunk(
 
 export const setSwapBalance = createAsyncThunk(
   "user/setSwapBalance",
-  async (id, formData) => {
+  async ({ id, formData }) => {
+    console.log(formData);
     const url = `${devServer}/users/${id}`;
+    const accessToken = getAccessToken();
+    try {
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMsg = error.response.data.message;
+        throw new Error(errorMsg);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+export const manageSwapAccess = createAsyncThunk(
+  "user/manageSwapAccess",
+  async (id) => {
+    const url = `${devServer}/users/swap/${id}`;
+    const accessToken = getAccessToken();
+    try {
+      const response = await axios.put(
+        url,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMsg = error.response.data.message;
+        throw new Error(errorMsg);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
+export const updateUserInfo = createAsyncThunk(
+  "user/updateUserInfo",
+  async ({ id, formData }) => {
+    console.log(formData);
+    console.log(id);
+    const url = `${devServer}/users/edit/${id}`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.put(url, formData, {
@@ -145,6 +205,7 @@ export const setSwapBalance = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -176,6 +237,11 @@ const userSlice = createSlice({
       state.deleteError = false;
       state.deleteLoading = false;
       state.deleted = false;
+    },
+    resetUpdateUser(state) {
+      state.updateUserError = false;
+      state.updateUserLoading = false;
+      state.userUpdated = false;
     },
   },
   extraReducers: (builder) => {
@@ -252,8 +318,37 @@ const userSlice = createSlice({
         state.setSwapError = action.error.message;
         state.setSwapSuccess = false;
       });
+    builder
+      .addCase(manageSwapAccess.pending, (state) => {
+        state.manageSwapLoading = true;
+      })
+      .addCase(manageSwapAccess.fulfilled, (state) => {
+        state.manageSwapLoading = false;
+        state.manageSwapError = false;
+        state.manageSwapSuccess = true;
+      })
+      .addCase(manageSwapAccess.rejected, (state, action) => {
+        state.manageSwapLoading = false;
+        state.manageSwapError = action.error.message;
+        state.manageSwapSuccess = false;
+      });
+    builder
+      .addCase(updateUserInfo.pending, (state) => {
+        state.updateUserLoading = true;
+      })
+      .addCase(updateUserInfo.fulfilled, (state) => {
+        state.updateUserLoading = false;
+        state.updateUserError = false;
+        state.userUpdated = true;
+      })
+      .addCase(updateUserInfo.rejected, (state, action) => {
+        state.updateUserLoading = false;
+        state.updateUserError = action.error.message;
+        state.userUpdated = false;
+      });
   },
 });
 
-export const { reset, resetUserDetails, resetDeleteUser } = userSlice.actions;
+export const { reset, resetUserDetails, resetDeleteUser, resetUpdateUser } =
+  userSlice.actions;
 export default userSlice.reducer;

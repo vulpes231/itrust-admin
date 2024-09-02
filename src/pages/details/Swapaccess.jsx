@@ -1,34 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { MdToggleOff, MdToggleOn } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { manageUserBot } from "../../features/userSlice";
+import { manageSwapAccess } from "../../features/userSlice";
 
-const Botaccess = ({ user }) => {
+const Swapaccess = ({ user }) => {
   const dispatch = useDispatch();
 
   const [error, setError] = useState(false);
 
-  const { manageBotLoading, manageBotError, manageBotSuccess } = useSelector(
+  const { manageSwapLoading, manageSwapError, manageSwapSuccess } = useSelector(
     (state) => state.user
   );
 
-  const handleBotAccess = (e) => {
+  const handleSwapAccess = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    dispatch(manageUserBot(user.userId));
+    dispatch(manageSwapAccess(user.userId));
   };
 
   useEffect(() => {
-    if (manageBotSuccess) {
+    if (manageSwapSuccess) {
+      console.log("yes");
       window.location.reload();
     }
-  }, [manageBotSuccess]);
+  }, [manageSwapSuccess]);
 
   useEffect(() => {
-    if (manageBotError) {
-      setError(manageBotError);
+    if (manageSwapError) {
+      setError(manageSwapError);
     }
-  }, [manageBotError]);
+  }, [manageSwapError]);
 
   useEffect(() => {
     let timeout;
@@ -44,17 +45,17 @@ const Botaccess = ({ user }) => {
   return (
     <div className="flex flex-col border border-slate-200 p-4 rounded-md ">
       <div className="flex justify-between items-center">
-        <p>Can use bot</p>
+        <p>Can swap</p>
         <button
-          onClick={handleBotAccess}
-          disabled={manageBotLoading}
+          onClick={handleSwapAccess}
+          disabled={manageSwapLoading}
           className="flex items-center gap-2"
         >
-          {manageBotLoading ? (
+          {manageSwapLoading ? (
             <MdToggleOn className="text-slate-500 text-4xl" />
           ) : (
             <>
-              {user?.botAccess ? (
+              {user?.swapAccess ? (
                 <MdToggleOn className="text-green-500 text-4xl" />
               ) : (
                 <MdToggleOff className="text-slate-500 text-4xl" />
@@ -68,4 +69,4 @@ const Botaccess = ({ user }) => {
   );
 };
 
-export default Botaccess;
+export default Swapaccess;

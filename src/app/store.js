@@ -8,6 +8,7 @@ import botReducer from "../features/botSlice";
 import logoutReducer from "../features/logoutSlice";
 import tradeReducer from "../features/tradeSlice";
 import masterWalletReducer from "../features/masterWalletSlice";
+import verifyReducer from "../features/verifySlice";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     logout: logoutReducer,
     trade: tradeReducer,
     master: masterWalletReducer,
+    verify: verifyReducer,
   },
 });
 

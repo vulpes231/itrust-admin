@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { MdToggleOff, MdToggleOn } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setSwapBalance } from "../../features/userSlice";
 
 const Setswapfee = ({ user }) => {
+  // console.log(user);
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     amount: "",
   });
+
+  const { setSwapLoading, setSwapError, setSwapSuccess } = useSelector(
+    (state) => state.user
+  );
 
   const [showSwap, setShowSwap] = useState(false);
 
@@ -24,16 +28,13 @@ const Setswapfee = ({ user }) => {
     }));
   };
 
-  const { setSwapLoading, setSwapError, setSwapSuccess } = useSelector(
-    (state) => state.user
-  );
-
   const handleSubmit = (e) => {
+    e.stopPropagation();
     e.preventDefault();
     const id = user.userId;
 
-    // console.log(form, id);
-    dispatch(setSwapBalance(id, data));
+    console.log(form, id);
+    dispatch(setSwapBalance({ id, formData: form }));
   };
 
   useEffect(() => {
@@ -46,9 +47,13 @@ const Setswapfee = ({ user }) => {
     <div
       className={" border border-slate-200 p-4 rounded-md hover:bg-purple-50"}
     >
-      <p onClick={handleShowSwap} className="capitalize cursor-pointer">
-        set swap fee
-      </p>
+      <div
+        onClick={handleShowSwap}
+        className="capitalize cursor-pointer flex justify-between items-center"
+      >
+        <p>set swap fee</p>
+        <small>fee: {user?.swapBalance}</small>
+      </div>
       <div
         className={!showSwap ? "hidden" : " flex flex-col gap-6 p-4 rounded-md"}
       >
@@ -69,8 +74,6 @@ const Setswapfee = ({ user }) => {
           {!setSwapLoading ? " Set fee" : "wait..."}
         </button>
       </div>
-
-      {setSwapError && <p className="text-red-500 text-sm">{setSwapError}</p>}
     </div>
   );
 };
