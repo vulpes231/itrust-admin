@@ -2,8 +2,10 @@ import React from "react";
 
 const Pagescontainer = ({ children }) => {
   return (
-    <div className="bg-slate-50 section">
-      <div className="lg:w-[1100px] mx-auto">{children}</div>
+    <div className="mt-[80px]">
+      <div className="lg:w-[1100px] mx-auto bg-white p-6 shadow-xl rounded-xl mb-10">
+        {children}
+      </div>
     </div>
   );
 };

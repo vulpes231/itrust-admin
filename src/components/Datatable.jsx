@@ -8,6 +8,10 @@ const Datatable = ({
   onChange,
   value,
 }) => {
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+
   // Initialize options state with empty array
   const [options, setOptions] = useState([]);
 
@@ -31,6 +35,12 @@ const Datatable = ({
     }
   }, [data]);
 
+  // Calculate pagination data
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data?.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((data?.length || 0) / itemsPerPage);
+
   const renderCellContent = (row, hdr) => {
     if (typeof row[hdr.id] === "object") {
       const myAssets = row[hdr.id].map((cn) => (
@@ -52,11 +62,22 @@ const Datatable = ({
     }
   };
 
+  const handlePageChange = (direction) => {
+    setCurrentPage((prevPage) => {
+      if (direction === "next" && prevPage < totalPages) {
+        return prevPage + 1;
+      } else if (direction === "prev" && prevPage > 1) {
+        return prevPage - 1;
+      }
+      return prevPage;
+    });
+  };
+
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-slate-200 shadow-md rounded">
-        <thead className="bg-slate-200 ">
-          <tr>
+      <table className="min-w-full bg-white">
+        <thead className="bg-slate-600 text-white">
+          <tr className="text-[#fff]">
             {headers?.map((hdr, index) => (
               <th
                 key={index}
@@ -71,7 +92,7 @@ const Datatable = ({
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {data?.map((row, rowIndex) => (
+          {currentItems?.map((row, rowIndex) => (
             <tr
               className={`font-thin text-xs ${
                 rowIndex % 2 === 0 ? "bg-gray-100" : "bg-transparent"
@@ -109,6 +130,25 @@ const Datatable = ({
           ))}
         </tbody>
       </table>
+      <div className="flex justify-between items-center py-4">
+        <button
+          onClick={() => handlePageChange("prev")}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange("next")}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

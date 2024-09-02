@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Formdiv, Section } from "../components";
 import Forminput from "../components/Forminput";
 import { useDispatch, useSelector } from "react-redux";
-import { signinAdmin } from "../features/loginSlice";
+import { resetLogin, signinAdmin } from "../features/loginSlice";
 import { useNavigate } from "react-router-dom";
 import { MdLockOpen } from "react-icons/md";
 

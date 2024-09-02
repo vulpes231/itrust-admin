@@ -14,6 +14,12 @@ const initialState = {
   deleteLoading: false,
   deleteError: false,
   deleted: false,
+  manageBotLoading: false,
+  manageBotError: false,
+  manageBotSuccess: false,
+  setSwapLoading: false,
+  setSwapError: false,
+  setSwapSuccess: false,
 };
 
 export const getUsers = createAsyncThunk("user/getUsers", async () => {
@@ -51,7 +57,7 @@ export const getUsers = createAsyncThunk("user/getUsers", async () => {
 export const getUserDetails = createAsyncThunk(
   "user/getUserDetails",
   async (id) => {
-    const url = `${liveServer}/users/${id}`;
+    const url = `${devServer}/users/${id}`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.get(url, {
@@ -74,7 +80,6 @@ export const getUserDetails = createAsyncThunk(
 );
 
 export const removeUser = createAsyncThunk("user/removeUser", async (id) => {
-  // console.log(userId);
   try {
     const url = `${liveServer}/users/delete/${id}`;
     const accessToken = getAccessToken();
@@ -99,6 +104,54 @@ export const removeUser = createAsyncThunk("user/removeUser", async (id) => {
     }
   }
 });
+
+export const manageUserBot = createAsyncThunk(
+  "user/manageUserBot",
+  async (id) => {
+    const url = `${devServer}/users/${id}`;
+    const accessToken = getAccessToken();
+    try {
+      const response = await axios.put(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMsg = error.response.data.message;
+        throw new Error(errorMsg);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
+export const setSwapBalance = createAsyncThunk(
+  "user/setSwapBalance",
+  async (id, formData) => {
+    const url = `${devServer}/users/${id}`;
+    const accessToken = getAccessToken();
+    try {
+      const response = await axios.put(url, formData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const errorMsg = error.response.data.message;
+        throw new Error(errorMsg);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -166,6 +219,34 @@ const userSlice = createSlice({
         state.deleteLoading = false;
         state.deleteError = action.error.message;
         state.deleted = false;
+      });
+    builder
+      .addCase(manageUserBot.pending, (state) => {
+        state.manageBotLoading = true;
+      })
+      .addCase(manageUserBot.fulfilled, (state) => {
+        state.manageBotLoading = false;
+        state.manageBotError = false;
+        state.manageBotSuccess = true;
+      })
+      .addCase(manageUserBot.rejected, (state, action) => {
+        state.manageBotLoading = false;
+        state.manageBotError = action.error.message;
+        state.manageBotSuccess = false;
+      });
+    builder
+      .addCase(setSwapBalance.pending, (state) => {
+        state.setSwapLoading = true;
+      })
+      .addCase(setSwapBalance.fulfilled, (state) => {
+        state.setSwapLoading = false;
+        state.setSwapError = false;
+        state.setSwapSuccess = true;
+      })
+      .addCase(setSwapBalance.rejected, (state, action) => {
+        state.setSwapLoading = false;
+        state.setSwapError = action.error.message;
+        state.setSwapSuccess = false;
       });
   },
 });

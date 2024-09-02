@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "../utils/utilities";
 import { getAllCoins } from "../features/masterWalletSlice";
 import Editcoinmodal from "./coins/Editcoinmodal";
+import { useNavigate } from "react-router-dom";
 
 const Masterwallet = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [showCoinModal, setShowCoinModal] = useState(false);
   const [edit, setEdit] = useState(false);
 
@@ -44,6 +45,12 @@ const Masterwallet = () => {
   // const handleCoinModal = () => {
   //   setShowCoinModal((prev) => !prev);
   // };
+
+  useEffect(() => {
+    if (!accessToken) {
+      na;
+    }
+  });
 
   useEffect(() => {
     if (accessToken) {

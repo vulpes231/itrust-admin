@@ -4,7 +4,6 @@ import Stats from "../components/dash/Stats";
 import Sidebar from "../components/Sidebar";
 import Users from "./Users";
 import Transactions from "./Transactions";
-import Wallets from "./Wallets";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken } from "../utils/utilities";
 import Bots from "./Bots";
@@ -36,7 +35,7 @@ const Dashboard = ({ toggle, handleToggle }) => {
           {activeLink === "dash" ? (
             <div className="mt-4 flex flex-col gap-4">
               <p className="capitalize font-semibold text-lg">
-                Welcome {admin.username}
+                Welcome {admin?.username}
               </p>
               <div>
                 <>
@@ -48,8 +47,6 @@ const Dashboard = ({ toggle, handleToggle }) => {
             <Users />
           ) : activeLink === "trnx" ? (
             <Transactions />
-          ) : activeLink === "wallet" ? (
-            <Wallets />
           ) : activeLink === "bot" ? (
             <Bots />
           ) : null}

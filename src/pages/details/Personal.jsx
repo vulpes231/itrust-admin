@@ -30,7 +30,7 @@ const Personal = ({ user }) => {
   };
 
   return (
-    <form className="capitalize font-medium text-xs flex flex-col gap-4">
+    <form className="capitalize font-medium text-xs flex flex-col gap-4 p-10 bg-white shadow-xl rounded-xl">
       <h5 className="text-xl">personal information</h5>
       <Formcontain>
         <Divcontain>
@@ -38,7 +38,7 @@ const Personal = ({ user }) => {
           <Admininput
             type="text"
             value={form.firstname}
-            placeHolder={user?.firstname}
+            placeHolder={user?.firstname || "Not set"}
             handleChange={handleChange}
             name="firstname"
           />
@@ -48,7 +48,7 @@ const Personal = ({ user }) => {
           <Admininput
             type="text"
             value={form.lastname}
-            placeHolder={user?.lastname}
+            placeHolder={user?.lastname || "Not set"}
             handleChange={handleChange}
             name="lastname"
           />
@@ -61,7 +61,7 @@ const Personal = ({ user }) => {
           <Admininput
             type="text"
             value={form.email}
-            placeHolder={user?.email}
+            placeHolder={user?.email || "Not set"}
             handleChange={handleChange}
             name="email"
           />
@@ -71,7 +71,7 @@ const Personal = ({ user }) => {
           <Admininput
             type="text"
             value={form.username}
-            placeHolder={user?.username}
+            placeHolder={user?.username || "Not set"}
             handleChange={handleChange}
             name="username"
           />
@@ -83,7 +83,7 @@ const Personal = ({ user }) => {
           <Admininput
             type="text"
             value={form.phone}
-            placeHolder={user?.phone}
+            placeHolder={user?.phone || "Not set"}
             handleChange={handleChange}
             name="phone"
           />
@@ -93,7 +93,7 @@ const Personal = ({ user }) => {
           <Admininput
             type="text"
             value={form.dob}
-            placeHolder={user?.dob}
+            placeHolder={user?.dob || "Not set"}
             handleChange={handleChange}
             name="dob"
             readOnly={true}
@@ -106,7 +106,7 @@ const Personal = ({ user }) => {
           <Admininput
             type="text"
             value={form.address}
-            placeHolder={user?.address}
+            placeHolder={user?.address || "Not set"}
             handleChange={handleChange}
             name="address"
           />
@@ -114,7 +114,7 @@ const Personal = ({ user }) => {
       </Formcontain>
       <button
         onClick={updateUser}
-        className="rounded-sm py-3 mt-4 bg-purple-500 text-white "
+        className="rounded-sm py-3 mt-4 bg-purple-500 text-white w-[250px]"
       >
         Update personal details
       </button>

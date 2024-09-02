@@ -3,9 +3,8 @@ import Datatable from "../components/Datatable";
 import { getAccessToken } from "../utils/utilities";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails, getUsers, removeUser } from "../features/userSlice";
+import { getUsers, removeUser } from "../features/userSlice";
 import Pagescontainer from "../components/Pagescontainer";
-import Userdetails from "./Userdetails";
 import DeleteModal from "./delete/deleteModal";
 
 const header = [
@@ -43,9 +42,7 @@ const Users = () => {
 
   const [user, setUser] = useState(null);
 
-  const { getError, getLoading, users, userDetails } = useSelector(
-    (state) => state.user
-  );
+  const { getError, getLoading, users } = useSelector((state) => state.user);
 
   const editUser = (row, option) => {
     setId(row._id);
@@ -83,23 +80,18 @@ const Users = () => {
   }, [users]);
 
   useEffect(() => {
-    if (action === "view") {
-      dispatch(getUserDetails(id));
+    if (action === "view" && id) {
+      console.log("yes");
+      navigate(`/user/?userId=${id}`);
     }
     if (action === "delete") {
       setDeleteModal(true);
     }
-  }, [action, dispatch]);
-
-  useEffect(() => {
-    if (userDetails) {
-      setUser(userDetails);
-    }
-  }, [userDetails]);
+  }, [action, id, dispatch]);
 
   if (getLoading) {
     return (
-      <div className="lg:w-[1200px] mx-auto">
+      <div className="lg:w-[1200px] mx-auto mt-[80px]">
         <h3 className="font-bold text-lg p-4">Users</h3>
         <p>Fetching users...</p>
       </div>
@@ -118,9 +110,7 @@ const Users = () => {
           "text-white px-4 py-2 bg-blue-500 text-xs rounded-sm capitalize"
         }
       />
-      {action === "view" && id && (
-        <Userdetails details={user} closeEdit={closeEdit} />
-      )}
+
       {deleteModal && (
         <DeleteModal close={closeDelete} deleteUser={deleteUser} />
       )}

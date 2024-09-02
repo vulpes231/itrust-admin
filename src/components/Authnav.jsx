@@ -5,9 +5,9 @@ import { MdClose, MdMenu } from "react-icons/md";
 import { light } from "../assets";
 import Usermenu from "./Usermenu";
 
-const Authnav = ({ toggle, handleToggle, setToken }) => {
+const Authnav = ({ toggle, handleToggle, setToken, logout, logoutLoad }) => {
   return (
-    <header className="w-full isolate top-0 bg-white">
+    <header className="w-full fixed top-0 bg-white border-b border-slate-200">
       <nav className="p-4 flex justify-between items-center lg:w-[990px] mx-auto">
         <figure className="">
           <img src={light} alt="" className="w-[35px]" />
@@ -29,7 +29,7 @@ const Authnav = ({ toggle, handleToggle, setToken }) => {
           </ul>
         </div>
         <div className="flex">
-          <Usermenu setToken={setToken} />
+          <Usermenu logout={logout} load={logoutLoad} />
           <button
             className="text-xl font-semibold p-1 sm:hidden"
             onClick={handleToggle}

@@ -5,7 +5,7 @@ import Admininput from "./Admininput";
 import { useDispatch, useSelector } from "react-redux";
 import { setWallet } from "../../features/walletSlice";
 
-const Wallet = ({ user }) => {
+const Wallet = ({ user, userId }) => {
   // console.log(user);
 
   const bitcoin = user?.assets?.find((ast) => ast.coinName === "bitcoin");
@@ -15,7 +15,6 @@ const Wallet = ({ user }) => {
   const initialState = {
     newAddress: "",
     coinName: "",
-    userId: "",
   };
 
   const dispatch = useDispatch();
@@ -49,66 +48,38 @@ const Wallet = ({ user }) => {
     }
   }, [setWalletSuccess]);
 
-  useEffect(() => {
-    if (user) {
-      form.userId = user.userId;
-    }
-  }, [user]);
   return (
-    <form className="capitalize font-medium text-xs flex flex-col gap-4">
+    <form className="capitalize font-medium text-xs flex flex-col gap-4 bg-white p-10 shadow-xl rounded-xl">
       <h5 className="text-xl capitalize">wallet information</h5>
-      <select
-        value={form.coinName}
-        onChange={handleChange}
-        name="coinName"
-        className="w-full px-4 py-2 border-2 focus:border-purple-500 outline-none placeholder:font-light placeholder:text-xs placeholder:text-[#333] bg-transparent "
-      >
-        <option value="">select coin</option>
-        <option value="bitcoin">bitcoin</option>
-        <option value="ethereum">ethereum</option>
-        <option value="tether">tether</option>
-      </select>
-
-      {form.coinName === "bitcoin" ? (
-        <Formcontain>
-          <div className="flex-1">
-            <label htmlFor="">BTC address</label>
-            <Admininput
-              type="text"
-              placeHolder={bitcoin?.address || "Not set"}
-              value={form.newAddress}
-              name={"newAddress"}
-              handleChange={handleChange}
-            />
-          </div>
-        </Formcontain>
-      ) : form.coinName === "ethereum" ? (
-        <Formcontain>
-          <div className="flex-1">
-            <label htmlFor="">ETH address</label>
-            <Admininput
-              type="text"
-              placeHolder={ethereum?.address || "Not set"}
-              value={form.newAddress}
-              name={"newAddress"}
-              handleChange={handleChange}
-            />
-          </div>
-        </Formcontain>
-      ) : form.coinName === "tether" ? (
-        <Formcontain>
-          <div className="flex-1">
-            <label htmlFor="">USDT address</label>
-            <Admininput
-              type="text"
-              placeHolder={tether?.address || "Not set"}
-              value={form.newAddress}
-              name={"newAddress"}
-              handleChange={handleChange}
-            />
-          </div>
-        </Formcontain>
-      ) : null}
+      <div className="flex flex-col gap-4">
+        {user?.assets?.map((asset, index) => {
+          return (
+            <div
+              key={index}
+              className="flex justify-between items-center gap-4"
+            >
+              <label
+                className="w-[15%]"
+                htmlFor=""
+              >{`${asset.coinName} address:`}</label>
+              <input
+                type="text"
+                value={form.coinName}
+                onChange={handleChange}
+                placeholder={asset.address}
+                className="border w-[70%] py-2.5 px-4 outline-none focus:border-none focus:outline-purple-500 rounded-xl"
+                name={asset.coinName}
+              />
+              <button
+                onClick={updateUserAsset}
+                className="rounded-sm py-2.5 bg-purple-500 text-white w-[15%]"
+              >
+                {!setWalletLoading ? "save" : "Wait.."}
+              </button>
+            </div>
+          );
+        })}
+      </div>
       {setWalletError && (
         <p className="text-xs font-thin text-red-500">{setWalletError}</p>
       )}
@@ -117,12 +88,6 @@ const Wallet = ({ user }) => {
           Wallet updated successfully.
         </p>
       )}
-      <button
-        onClick={updateUserAsset}
-        className="rounded-sm py-3 mt-4 bg-purple-500 text-white "
-      >
-        {!setWalletLoading ? "Set address" : "Wait.."}
-      </button>
     </form>
   );
 };

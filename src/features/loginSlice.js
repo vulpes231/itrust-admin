@@ -37,7 +37,7 @@ const loginAdminSlice = createSlice({
   name: "signin",
   initialState,
   reducers: {
-    reset(state) {
+    resetLogin(state) {
       state.accessToken = null;
       state.loading = false;
       state.error = false;
@@ -67,5 +67,5 @@ const loginAdminSlice = createSlice({
   },
 });
 
-export const { reset } = loginAdminSlice.actions;
+export const { resetLogin } = loginAdminSlice.actions;
 export default loginAdminSlice.reducer;
