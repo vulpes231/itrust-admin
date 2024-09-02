@@ -5,7 +5,7 @@ import { MdClose, MdMenu } from "react-icons/md";
 import { light } from "../assets";
 import Usermenu from "./Usermenu";
 
-const Authnav = ({ toggle, handleToggle, setToken, logout, logoutLoad }) => {
+const Authnav = ({ toggle, handleToggle, logout, logoutLoad }) => {
   return (
     <header className="w-full fixed top-0 bg-white border-b border-slate-200">
       <nav className="p-4 flex justify-between items-center lg:w-[990px] mx-auto">
