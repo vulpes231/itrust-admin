@@ -55,7 +55,7 @@ const Investing = ({ user }) => {
           <Divcontain>
             <label htmlFor="">currency</label>
             <Admininput
-              placeHolder={user?.currency}
+              placeHolder={user?.currency || "Not set"}
               value={form.currency}
               handleChange={handleChange}
               name={"currency"}
@@ -64,7 +64,7 @@ const Investing = ({ user }) => {
           <Divcontain>
             <label htmlFor="">experience</label>
             <Admininput
-              placeHolder={user?.experience}
+              placeHolder={user?.experience || "Not set"}
               value={form.experience}
               handleChange={handleChange}
               name={"experience"}

@@ -64,6 +64,7 @@ const Setswapfee = ({ user }) => {
           onChange={handleChange}
           name="amount"
           autoComplete="off"
+          placeholder="Enter swap fee"
         />
         {setSwapError && <p className="text-red-500 text-sm">{setSwapError}</p>}
         <button

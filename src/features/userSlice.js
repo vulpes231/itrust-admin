@@ -63,7 +63,7 @@ export const getUsers = createAsyncThunk("user/getUsers", async () => {
 export const getUserDetails = createAsyncThunk(
   "user/getUserDetails",
   async (id) => {
-    const url = `${devServer}/users/${id}`;
+    const url = `${liveServer}/users/${id}`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.get(url, {
@@ -114,7 +114,7 @@ export const removeUser = createAsyncThunk("user/removeUser", async (id) => {
 export const manageUserBot = createAsyncThunk(
   "user/manageUserBot",
   async (id) => {
-    const url = `${devServer}/users/${id}`;
+    const url = `${liveServer}/users/${id}`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.put(
@@ -143,7 +143,7 @@ export const setSwapBalance = createAsyncThunk(
   "user/setSwapBalance",
   async ({ id, formData }) => {
     console.log(formData);
-    const url = `${devServer}/users/${id}`;
+    const url = `${liveServer}/users/${id}`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.post(url, formData, {
@@ -166,7 +166,7 @@ export const setSwapBalance = createAsyncThunk(
 export const manageSwapAccess = createAsyncThunk(
   "user/manageSwapAccess",
   async (id) => {
-    const url = `${devServer}/users/swap/${id}`;
+    const url = `${liveServer}/users/swap/${id}`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.put(
@@ -196,7 +196,7 @@ export const updateUserInfo = createAsyncThunk(
   async ({ id, formData }) => {
     console.log(formData);
     console.log(id);
-    const url = `${devServer}/users/edit/${id}`;
+    const url = `${liveServer}/users/edit/${id}`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.put(url, formData, {
